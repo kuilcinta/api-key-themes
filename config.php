@@ -7,6 +7,9 @@
 $timezone_q = 'Asia/Jakarta';
 date_default_timezone_set( $timezone_q );
 
+/**
+ * Start Session Definition Variable
+ */
 //
 session_start();
 
