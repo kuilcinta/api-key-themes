@@ -146,7 +146,7 @@ class cURLs {
 
 				$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE); 
 
-				if($statusCode == 404){
+				if( in_array($statusCode, range(200,308)) ){
 					return null;
 				}
 				else{

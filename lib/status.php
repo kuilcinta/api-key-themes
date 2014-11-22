@@ -17,6 +17,12 @@ function statusCode($code='',$lang='id'){
 		case 202:
 			$status = $lang == 'id' ? 'Proses Diterima' : 'Accepted for processing';
 			break;
+		case 301:
+			$status =  $lang == 'id' ? 'Dialihkan' : 'Redirect';
+			break;
+		case 301:
+			$status =  $lang == 'id' ? 'Ditemukan' : 'Found';
+			break;
 		case 304:
 			$status =  $lang == 'id' ? 'Tidak Ada Data' : 'No Data';
 			break;
