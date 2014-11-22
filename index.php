@@ -18,6 +18,7 @@ else{
 	/* Handle JSON formatting wit boolean condition */
 	$formatting_json_request = formatting_json_request(array('id'=>$idapi,'lang'=>$lang));
 	$json_code_respon = $formatting_json_request['status'];
+	$translate_response_code = ucwords(statusCode($json_code_respon,'en'));
 
 	/* Start define header() type for JSON files return */
 	if($json_code_respon==200){
@@ -33,7 +34,8 @@ else{
 		echo json_encode($formatting_json_request);
 	}
 	else{
-		header("HTTP/1.0 $json_code_respon");
+		header("HTTP/1.0 $json_code_respon $translate_response_code");
+		echo $translate_response_code;
 	}
 }
 ?>
