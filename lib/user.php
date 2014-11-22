@@ -68,7 +68,7 @@ class User_Service {
         $userSQL = $this->_user;
         $userData = $userSQL->fetch_assoc();
 
-        session_regenerate_id();
+        session_regenerate_id(true);
 
         $useridlog = $userData['user_id'];
         $usernamelog = $userData['user_name'];

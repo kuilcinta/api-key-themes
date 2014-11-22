@@ -1,41 +1,38 @@
 <?php
+ob_start("ob_gzhandler");
 //session_start();
 
 require_once(dirname(__FILE__).'/config.php');
 
-//echo $_SESSION['apiuserlog'];
+if(isset($_GET['page']) AND $_GET['page']=='error'):
+	load_error_template(true, true, false);
+else:
 
-if(isset($_GET['page']) AND $_GET['page']=='error'){
-	get_header(false,true);
-	get_template_php('includes/template','error');
-	get_footer();
-}
-else{
-	/* Set Global parameter URL */
-	$idapi = isset($_GET['ids']) ? $_GET['ids'] : 0;
-	$lang = isset($_GET['lang']) ? $_GET['lang'] : 'en';
+get_header(true,true);
 
-	/* Handle JSON formatting wit boolean condition */
-	$formatting_json_request = formatting_json_request(array('id'=>$idapi,'lang'=>$lang));
-	$json_code_respon = $formatting_json_request['status'];
-	$translate_response_code = ucwords(statusCode($json_code_respon,'en'));
+?>
 
-	/* Start define header() type for JSON files return */
-	if($json_code_respon==200){
-		header('Content-Type: application/json');
+<div class="container clearfix">
 
-		if(isset($_GET['download'])){
-			$langs = isset($_GET['lang']) ? '_'.$_GET['lang'] : '';
-			header("Content-Disposition: attachment; filename=\"auth_key_$idapi$langs.json\"");
-		}
+	<div class="row">
+	
+	<div class="col-lg-pull-4 col-lg-4 col-lg-push-4">
+		<div class="page-header">
+			<h2 class="row">
 
-		nocache_headers();
+			</h2>
+		</div>
+	</div>
 
-		echo json_encode($formatting_json_request);
-	}
-	else{
-		header("HTTP/1.0 $json_code_respon $translate_response_code");
-		echo $translate_response_code;
-	}
-}
+	</div>
+
+</div>
+
+<?php
+
+endif;
+
+get_footer();
+
+ob_end_flush();
 ?>

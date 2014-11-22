@@ -7,6 +7,9 @@
 $timezone_q = 'Asia/Jakarta';
 date_default_timezone_set( $timezone_q );
 
+//
+session_start();
+
 $apiuserlog_session = isset($_SESSION['apiuserlog']) ? $_SESSION['apiuserlog'] : false;
 
 $ofan_session = isset($_SESSION['ofansession']) ? $_SESSION['ofansession'] : false;

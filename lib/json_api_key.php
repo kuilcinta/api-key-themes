@@ -360,7 +360,7 @@ function get_api_status($datauser,$convert=false,$html_render=false){
  * @return array()
  */
 function formatting_json_request($args=false){
-	session_start();
+	//session_start();
 
 	if($args['id']==0){
 		/* Response code 304 jika $data kosong */

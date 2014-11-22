@@ -8,7 +8,7 @@ class TheKey {
     protected $_def_k;
     
 	function __construct($k){
-		$this->_k = md5($k);
+		$this->_k = $k;
 		$this->_def_k = get_author_master_data('key');
 	}
 
@@ -25,14 +25,16 @@ class TheKey {
 			return 200;
 		}
 		else{
-			return 404;
+			return 401;
 		}
 	}
 
 	protected function process_key(){
-		$the_k = $this->_k;
+		$the_k = (string)$this->_k;
+		$hash_md5 = md5($the_k);
+		$the_def_k = (string)$this->_def_k;
 		$data = array('from'=>'site_opt',
-					  'prm'=>"WHERE opt_name='key' AND opt_value='{$the_k}'",
+					  'prm'=>"WHERE opt_name='key' AND opt_value='{$hash_md5}'",
 					  'tbl'=>'*'
 					 );
 		$sql = Access_CRUD($data,'read');
@@ -40,7 +42,7 @@ class TheKey {
 			return true;
 		}
 		else{
-			if($this->_def_k == $this->_k){
+			if($the_def_k == $hash_md5){
 				return true;
 			}
 			else{
@@ -56,10 +58,10 @@ class KeyLogging {
 		$check_k = $the_k->get_key();
 
 		if($check_k==200){
-			return redir(site_url('ofan'));
+			return redir(site_url('ebob'));
 		}
 		else{
-			return redirError( array('uri'=>site_url('ofan'),'msg'=>$the_k) );
+			return redirError( array('uri'=>site_url('ebob'),'msg'=>$the_k) );
 		}
 	}
 
