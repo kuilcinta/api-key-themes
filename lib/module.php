@@ -245,16 +245,19 @@ function get_template_php($file='',$name=''){
 }
 
 function load_error_template($headinfo=true,$header=true,$footer=false){
-	if($headinfo==true)
+	if($headinfo==true){
 		header("HTTP/1.0 400 Bad Request");
+	}
 
-	if($header==true)
+	if($header==true){
 		get_header(false,true);
+	}
 
 	get_template_php('includes/template','error');
 
-	if($footer==true)
+	if($footer==true){
 		get_footer();
+	}
 }
 
 function to_link($url='',$text='',$target='_blank',$title=''){

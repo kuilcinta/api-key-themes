@@ -5,7 +5,7 @@ ob_start("ob_gzhandler");
 require_once(dirname(__FILE__).'/config.php');
 
 if(isset($_GET['page']) AND $_GET['page']=='error'):
-	load_error_template(true, true, false);
+	load_error_template(true,true,false);
 else:
 
 get_header(true,true);

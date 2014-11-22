@@ -37,7 +37,9 @@ class TheKey {
 					  'prm'=>"WHERE opt_name='key' AND opt_value='{$hash_md5}'",
 					  'tbl'=>'*'
 					 );
+
 		$sql = Access_CRUD($data,'read');
+		
 		if($sql->num_rows != 0){
 			return true;
 		}

@@ -58,6 +58,7 @@ get_header(true,true);
 </div>
 
 <?php
+
 get_footer();
 
 ob_end_flush();

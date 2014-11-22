@@ -111,7 +111,7 @@ class cURLs {
 		else{
 			$options = array(
 				CURLOPT_RETURNTRANSFER => true, // return web page
-				CURLOPT_HEADER => true, // don't return headers
+				CURLOPT_HEADER => false, // don't return headers
 				CURLOPT_FOLLOWLOCATION => true, // follow redirects
 				CURLOPT_ENCODING => $encod, // handle all encodings
 				CURLOPT_AUTOREFERER => true, // set referer on redirect

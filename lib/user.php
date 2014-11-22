@@ -73,7 +73,13 @@ class User_Service {
         $useridlog = $userData['user_id'];
         $usernamelog = $userData['user_name'];
 
-        $_SESSION['apiuserlog'] = $Users->encodecode(array( array('a'=>$useridlog,'b'=>$usernamelog) ),'encode');
+        $_SESSION['apiuserlog'] = $Users->encodecode(
+                                            array(
+                                                array('a'=>$useridlog,
+                                                      'b'=>$usernamelog
+                                                      )
+                                                ),
+                                            'encode');
         return 200;
     }
 

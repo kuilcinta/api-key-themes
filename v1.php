@@ -6,7 +6,7 @@ require_once(dirname(__FILE__).'/config.php');
 //echo $_SESSION['apiuserlog'];
 
 if(empty($_GET['ids'])){
-	load_error_template(true, true, true);
+	load_error_template(true,true,true);
 }
 else{
 	/* Set Global parameter URL */
