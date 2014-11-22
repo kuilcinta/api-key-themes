@@ -20,7 +20,7 @@ function statusCode($code='',$lang='id'){
 		case 301:
 			$status =  $lang == 'id' ? 'Dialihkan' : 'Redirect';
 			break;
-		case 301:
+		case 302:
 			$status =  $lang == 'id' ? 'Ditemukan' : 'Found';
 			break;
 		case 304:
