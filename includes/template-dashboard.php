@@ -84,9 +84,9 @@ if(isset($_GET['logout'])){
 
 
 			<?php
-			$uri_api = site_url('?ids='.$user_api_db['api_id'].'&lang=id');
-			$url_api = site_url('id/'.$user_api_db['api_id'].'.json');
-			$download_api = site_url('download/id/'.$user_api_db['api_id'].'.json');
+			$uri_api = site_url('v1?ids='.$user_api_db['api_id'].'&lang=id');
+			$url_api = site_url('v1/id/'.$user_api_db['api_id'].'.json');
+			$download_api = site_url('v1/download/id/'.$user_api_db['api_id'].'.json');
 			$api_param = array(	'ids'=>'API ID for registered user',
 								'lang'=>'Language use (available for id & en)',
 								'parameter'=>$user_api_db['api_status']=='Y' ? to_link( $uri_api, $uri_api, '_blank', 'Your Parameter' ) : 'unaviable',
