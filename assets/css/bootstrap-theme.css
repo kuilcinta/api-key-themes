@@ -27,12 +27,12 @@
     border-color: #ccc;
 }
 .btn-default:hover, .btn-default:focus {
-    background-color: #e0e0e0;
-    background-position: 0 -15px;
+    background-color: #e0e0e0 !important;
+    background-position: 0 -15px !important;
 }
 .btn-default:active, .btn-default.active {
-    background-color: #e0e0e0;
-    border-color: #dbdbdb;
+    background-color: #e0e0e0 !important;
+    border-color: #dbdbdb !important;
 }
 .btn-primary {
     background-image: -webkit-linear-gradient(top, #2da8ad 0, #20797c 100%);
@@ -43,12 +43,12 @@
     border-color: #1e7174;
 }
 .btn-primary:hover, .btn-primary:focus {
-    background-color: #20797c;
-    background-position: 0 -15px;
+    background-color: #20797c !important;
+    background-position: 0 -15px !important;
 }
 .btn-primary:active, .btn-primary.active {
-    background-color: #20797c;
-    border-color: #1e7174;
+    background-color: #20797c !important;
+    border-color: #1e7174 !important;
 }
 .btn-success {
     background-image: -webkit-linear-gradient(top, #7dce1a 0, #5c9813 100%);
@@ -59,12 +59,12 @@
     border-color: #578f12;
 }
 .btn-success:hover, .btn-success:focus {
-    background-color: #5c9813;
-    background-position: 0 -15px;
+    background-color: #5c9813 !important;
+    background-position: 0 -15px !important;
 }
 .btn-success:active, .btn-success.active {
-    background-color: #5c9813;
-    border-color: #578f12;
+    background-color: #5c9813 !important;
+    border-color: #578f12 !important;
 }
 .btn-info {
     background-image: -webkit-linear-gradient(top, #59d0ff 0, #1cbfff 100%);
@@ -91,12 +91,12 @@
     border-color: #e38d13;
 }
 .btn-warning:hover, .btn-warning:focus {
-    background-color: #eb9316;
-    background-position: 0 -15px;
+    background-color: #eb9316 !important;
+    background-position: 0 -15px !important;
 }
 .btn-warning:active, .btn-warning.active {
-    background-color: #eb9316;
-    border-color: #e38d13;
+    background-color: #eb9316 !important;
+    border-color: #e38d13 !important;
 }
 .btn-danger {
     background-image: -webkit-linear-gradient(top, #d9534f 0, #c12e2a 100%);
@@ -107,12 +107,12 @@
     border-color: #b92c28;
 }
 .btn-danger:hover, .btn-danger:focus {
-    background-color: #c12e2a;
-    background-position: 0 -15px;
+    background-color: #c12e2a !important;
+    background-position: 0 -15px !important;
 }
 .btn-danger:active, .btn-danger.active {
-    background-color: #c12e2a;
-    border-color: #b92c28;
+    background-color: #c12e2a !important;
+    border-color: #b92c28 !important;
 }
 .thumbnail, .img-thumbnail {
     -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075);

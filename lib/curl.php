@@ -77,7 +77,7 @@ class cURLs {
 
 				$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE); 
 
-				if( in_array($statusCode, range(200,308)) ){
+				if( in_array($statusCode, range(200,306)) ){
 					return false;
 				}
 				else{
@@ -106,7 +106,7 @@ class cURLs {
 		$max_redir = isset($args['max_redir']) ? $args['max_redir'] : 3;
 
 		if($url == false){
-			return false;
+			return null;
 		}
 		else{
 			$options = array(
@@ -146,11 +146,11 @@ class cURLs {
 
 				$statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE); 
 
-				if( in_array($statusCode, range(200,308)) ){
-					return null;
+				if( in_array($statusCode, range(200,306)) ){
+					return $result;
 				}
 				else{
-					return $result;
+					return null;
 				}
 			}
 			else{
@@ -158,6 +158,14 @@ class cURLs {
 			}
 			curl_close($curl);
 		}
+	}
+
+	protected function _sliceCurlData(){
+		$args = $this->_args;
+		$get_html = $this->_ProcessDataCurl();
+		$get_html = strstr($get_html, $args['open_tag']);
+		$get_html = strstr($get_html,  $args['close_tag'], true);
+		$get_html = substr($get_html,strlen($metaname)+2,-6);
 	}
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 ob_start("ob_gzhandler");
-session_start();
+//session_start();
 
 require_once(dirname(__FILE__).'/../config.php');
 require_once(dirname(__FILE__).'/../lib/key.php');

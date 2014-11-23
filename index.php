@@ -14,15 +14,7 @@ get_header(true,true);
 
 <div class="container clearfix">
 
-	<div class="row">
-	
-	<div class="col-lg-pull-4 col-lg-4 col-lg-push-4">
-		<div class="page-header">
-			<h2 class="row">
-
-			</h2>
-		</div>
-	</div>
+	<div id="banner"></div>
 
 	</div>
 
