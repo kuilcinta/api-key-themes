@@ -201,44 +201,6 @@ class Crud_Service {
 
         return $result;
 	}
-
-    /**
-     * @since v.1.0
-     * _Upload()
-     * Menangani permintaan untuk memproses copy/paste file
-     * Dari komputer client ke server
-     */
-    protected function _Upload(){
-        $datasets = $this->_dataset;
-
-        /* Alamat file bukan relative dari cache browser */
-        $files = $datasets['file'];
-        
-        /* Format File yang diperbolehkan */
-        $allowed = isset($datasets['ext']) ? $datasets['ext'] : array('txt');
-
-        /* Memastikan jika input $files tidak kosong */
-        if(isset($files) && $files['error'] == 0){
-            
-            /* Membuat variable extension file dari nama file di cache browser yg terkirim di method POST */
-            $extension = pathinfo($files['name'], PATHINFO_EXTENSION);
-
-            /* Jika nama ekstensi pada variable $extension tidak terdapat di data array $allowed format file
-             * Maka akan di return 0 (null)
-             */
-            if(!in_array(strtolower($extension), $allowed)){
-                return 0;
-            }
-
-            /* Jika file berhasil di copy/paste maka akan di return 1 */
-            if(move_uploaded_file($files['tmp_name'], $files['name'])){
-                return 1;
-            }
-        }
-
-        /* Return default jika terjadi error di awal proses */
-        return 0;
-    }    
 }
 
 /**
