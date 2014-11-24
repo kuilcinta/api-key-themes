@@ -14,7 +14,7 @@ class ToJson {
     protected $_domain;
     protected $_nextyear;
 
-	function __construct($args){
+	public function __construct($args){
 		$this->_id = isset($args['id']) ? $args['id'] : false;
 		$this->_usn = isset($args['usn']) ? $args['usn'] : false;
 		$this->_pass = isset($args['pass']) ? $args['pass'] : false;
@@ -44,7 +44,7 @@ class ToJson {
 		else{
 			$create_api = $this->_CreateAPI();
 
-			if($create_api==true){
+			if($create_api == true){
 				return redir(site_url('users'));
 			}
 			else{
@@ -65,9 +65,9 @@ class ToJson {
 		$username = $this->_usn;
 		$password = $this->_pass;
 		$email = $this->_email;
-		$check_user = $this->_CheckUserName();
+		//$check_user = $this->_CheckUserName();
 		
-		if($check_user==true){
+		if($this->_CheckUserName() !== null){
 			return false;
 		}
 		else{
@@ -78,16 +78,28 @@ class ToJson {
 												  'lname'=>'')
 											);
 
-			$GenerateNewUser = $UserService->generate_user();
+			//$GenerateNewUser = $UserService->generate_user();
 
-			if($GenerateNewUser == true){
-				$process = $this->_GenerateAPI();
-				if($process AND $process==1){
-					return true;
+			if($UserService->generate_user() == true){
+
+				//$checkDomain = $this->_checkDomainRegis();
+				
+				if($this->_checkDomainRegis() == false){
+
+					//$generateAPI = $this->_GenerateAPI();
+
+					if($this->_GenerateAPI() == 1){
+						return true;
+					}
+					else{
+						return false;
+					}
+
 				}
 				else{
 					return false;
 				}
+
 			}
 			else{
 				return false;
@@ -112,7 +124,7 @@ class ToJson {
 		$api_id = rand(100,999).time();
 		$user_id = $Users->get_user_id_by_username($username);
 
-		if($user_id!=null){
+		if($user_id !== null){
 		    $data = array( 'tbl'=>'api_data',
 		                   'prm'=>array('api_user'=>$user_id,
 		                   				'api_id'=>$api_id,
@@ -158,6 +170,24 @@ class ToJson {
         $user = $credential->check_user_exist();
         
         return $user;
+	}
+
+	protected function _checkDomainRegis(){
+		$domain = $this->_domain;
+
+		$data = array('tbl'=>'*',
+					  'from'=>'api_data',
+					  'prm'=>"WHERE api_domain='{$domain}'"
+					  );
+
+		$sql = Access_CRUD($data,'read');
+
+		if($sql->num_rows == 0){
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 	/**
@@ -359,8 +389,8 @@ function get_api_status($datauser,$convert=false,$html_render=false){
  * @author Ofan Ebob
  * @return array()
  */
-function formatting_json_request($args=false){
-	//session_start();
+function formatting_json_request($args=session_start){
+	//false();
 
 	if($args['id']==0){
 		/* Response code 304 jika $data kosong */
