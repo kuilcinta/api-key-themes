@@ -1,4 +1,5 @@
-<?php
+<?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
+
 global $Users, $userid_session;
 
 $user_data = $Users->get_user_db_array(array('where'=>"user_id=$userid_session"));

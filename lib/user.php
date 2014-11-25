@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
 
 /**
  * @author ofanebob
@@ -112,10 +112,10 @@ class User_Service {
         $sql = $this->_CheckUserName();
 
         if($sql->num_rows == 0){
-            return false;
+            return null;
         }
         else{
-            return true;
+            return $sql->fetch_assoc();
         }
     }
 

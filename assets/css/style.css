@@ -1,3 +1,5 @@
+@import url("../fonts/BebasNeue/BebasNeue.min.css");
+@import url("../fonts/FontAwesome/font-awesome.min.css");
 
 /* Make clicks pass-through */
 #nprogress {
@@ -77,6 +79,15 @@ html,body{
 section{
 }
 
+footer {
+    position:relative;
+    /*position: absolute;
+    margin: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;*/
+}
+
 footer > div {
 	padding:15px 0;
 }
@@ -86,5 +97,14 @@ form.margin-bottom{
 }
 
 .form_access{
-	margin-bottom:50%
+    margin-top:15%;
+	margin-bottom:20%
+}
+
+* > .form-decoring,
+.form-decoring > form,
+form.form-decoring{
+    padding: 5px;
+    background-color: #FFF;
+    border-radius: 5px;
 }

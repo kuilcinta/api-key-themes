@@ -1,0 +1,30 @@
+Options All -Indexes
+
+ErrorDocument 500 http://192.168.1.5/api.ofanebob.com?page=error&msg=500
+ErrorDocument 404 http://192.168.1.5/api.ofanebob.com?page=error&msg=404
+ErrorDocument 401 http://192.168.1.5/api.ofanebob.com?page=error&msg=401
+ErrorDocument 403 http://192.168.1.5/api.ofanebob.com?page=error&msg=403
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+RewriteRule ^v1$ v1.php
+
+RewriteRule ^v1\/([0-9]+)\.json$ v1.php?ids=$1
+RewriteRule ^v1\/([0-9]+)$ v1.php?ids=$1
+RewriteRule ^v1\/([0-9]+)\/$ v1.php?ids=$1
+
+RewriteRule ^v1\/([0-9]+)-([a-zA-Z0-9_-]+)\.json$ v1.php?ids=$1&lang=$2
+RewriteRule ^v1\/([a-zA-Z0-9_-]+)\/([0-9]+)$ v1.php?lang=$1&ids=$2
+RewriteRule ^v1\/([a-zA-Z0-9_-]+)\/([0-9]+)\/$ v1.php?lang=$1&ids=$2
+RewriteRule ^v1\/([a-zA-Z0-9_-]+)\/([0-9]+)\.json$ v1.php?lang=$1&ids=$2
+
+RewriteRule ^v1\/download\/([0-9]+)\.json$ v1.php?download&ids=$1
+RewriteRule ^v1\/download\/([0-9]+)\/$ v1.php?download&ids=$1
+RewriteRule ^v1\/download\/([0-9]+)$ v1.php?download&ids=$1
+
+RewriteRule ^v1\/download\/([a-zA-Z0-9_-]+)\/([0-9]+)\.json$ v1.php?download&lang=$1&ids=$2
+RewriteRule ^v1\/download\/([a-zA-Z0-9_-]+)\/([0-9]+)\/$ v1.php?download&lang=$1&ids=$2
+RewriteRule ^v1\/download\/([a-zA-Z0-9_-]+)\/([0-9]+)$ v1.php?download&lang=$1&ids=$2
+RewriteRule ^v1\/download\/([a-zA-Z0-9_-]+)\/([0-9]+).json$ v1.php?download&lang=$1&ids=$2
+</IfModule>

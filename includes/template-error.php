@@ -1,3 +1,5 @@
+<?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404'); ?>
+
 <div class="container clearfix">
 	<div class="row">
 		<div class="col-lg-pull-1 col-lg-10 col-lg-push-1">

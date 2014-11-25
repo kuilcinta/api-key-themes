@@ -4,27 +4,33 @@ ob_start("ob_gzhandler");
 
 require_once(dirname(__FILE__).'/config.php');
 
+get_logout_process();
+
 if(isset($_GET['page']) AND $_GET['page']=='error'):
 	load_error_template(true,true,false);
+
+	get_footer();
+	
 else:
+
+if(isset($_SESSION['apiuserlog']))
+	redir(site_url('users'));
 
 get_header(true,true);
 
 ?>
 
-<div class="container clearfix">
+<style><?php slide_home_css() ?></style>
 
-	<div id="banner"></div>
-
+	<div class="container clearfix">
+			<?php get_template_php('includes/template','frontpage') ?>
 	</div>
-
-</div>
 
 <?php
 
-endif;
+get_footer(false);
 
-get_footer();
+endif;
 
 ob_end_flush();
 ?>

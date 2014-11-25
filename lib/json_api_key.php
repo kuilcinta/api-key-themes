@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
 /**
  * ToJson Class
  * Handling updata & create New API on database from user request
@@ -45,7 +45,10 @@ class ToJson {
 			$create_api = $this->_CreateAPI();
 
 			if($create_api == true){
-				return redir(site_url('users'));
+				$email = $this->_email;
+				$ue = base64_encode($email);
+				setcookie('ue',$ue,time() + (86400 * 7));
+				return redir(site_url('users?sucess'));
 			}
 			else{
 				return redirError( array('uri'=>site_url('users?register'),'msg'=>422) );
@@ -130,6 +133,7 @@ class ToJson {
 		                   				'api_id'=>$api_id,
 		                   				'api_value'=>'none',
 		                   				'api_domain'=>$domain,
+		                   				'api_domain_live'=>'N',
 		                   				'api_client'=>$client,
 		                   				'api_valid'=>$nextyear,
 		                   				'api_status'=>'N'

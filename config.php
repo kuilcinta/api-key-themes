@@ -29,6 +29,7 @@ define('DB_NAME', 'api_ofan');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
 define('BASEDIR', dirname(__FILE__));
+define('INCPATH', BASEDIR.'/includes');
 define('LIB_PATH', BASEDIR.'/lib');
 define('IS_DEV', $is_develop);
 

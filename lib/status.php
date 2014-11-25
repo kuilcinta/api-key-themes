@@ -1,4 +1,5 @@
-<?php
+<?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
+
 /**
  * @since v.1.0
  * statusCode()
@@ -36,7 +37,7 @@ function statusCode($code='',$lang='id'){
 			$status =  $lang == 'id' ? 'Masuk Kawasan Terlarang' : 'Forbidden';
 			break;
 		case 404:
-			$status =  $lang == 'id' ? 'Tidak Tersedia' : 'No Exists';
+			$status =  $lang == 'id' ? 'Tidak Tersedia' : 'Not Exists';
 			break;
 		case 406:
 			$status =  $lang == 'id' ? 'Akses Ditolak' : 'Access Denied';

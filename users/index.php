@@ -6,6 +6,9 @@ require_once(dirname(__FILE__).'/../config.php');
 
 get_header(true,true);
 
+if(isset($_GET['success'])):
+	get_template_php('includes/template','success');
+else:
 ?>
 
 <div class="container clearfix">
@@ -17,13 +20,13 @@ get_header(true,true);
 		<div class="col-lg-pull-4 col-lg-4 col-lg-push-4">
 			<div class="page-header">
 				<h2 class="row">
-					<img class="col-lg-3 img-rounded" src="<?= site_url('image.php?image=assets/images/icon.png&demo=resize&width=50&height=50') ?>" />
-					<span class="col-lg-9 text-primary f-size-100cent">
+					<img class="col-xs-4 col-sm-2 col-md-3 col-lg-3 img-rounded" src="<?= site_url('assets/images/icon-flat.png') ?>" />
+					<span class="col-xs-8 col-sm-10 col-md-9 col-lg-9 text-primary font-primary f-size-100cent">
 						<?php
 						if(isset($_GET['register'])):
-							echo 'Register Your Site '.site_title();
+							echo 'Register Your Site<br />'.site_title();
 						else:
-							echo author_name().' '.site_title();
+							echo author_name().'<br />'.site_title();
 						endif;
 						?>
 					</span>
@@ -34,9 +37,13 @@ get_header(true,true);
 
 			<?php
 			if(isset($_GET['register'])):
-			get_template_php('includes/template','register');
+				echo '<div class="separator">';
+				get_template_php('includes/template','register');
+				echo '</div>';
 			else:
-			get_template_php('includes/template','form-login');
+				echo '<div class="form_access">';
+				get_template_php('includes/template','form-login');
+				echo '</div>';
 			endif;
 			?>
 		</div>
@@ -58,6 +65,8 @@ get_header(true,true);
 </div>
 
 <?php
+
+endif;
 
 get_footer();
 

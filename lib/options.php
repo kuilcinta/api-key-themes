@@ -1,4 +1,5 @@
-<?php
+<?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
+
 function get_site_options($table=''){
     $data = array(  'tbl'=>'*',
                     'from'=>'site_opt',
@@ -11,7 +12,7 @@ function get_site_options($table=''){
 
 function site_url($url=''){
     $siteurl = get_site_options('siteurl');
-    return $siteurl.(empty($url) ? '': '/'.$url);
+    return $siteurl.(empty($url) ? '' : (preg_match('/(^\/)/',$url) ? $url : '/'.$url));
 }
 
 function api_version(){

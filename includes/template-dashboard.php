@@ -1,16 +1,9 @@
-<?php
+<?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
+
 global $Users, $apiuserlog_session, $userid_session;
 
-if(isset($_GET['logout'])){
-	global $Users;
-	if(isset($_POST['log_ses'])) {
-		$log_proc = $Users->logout($_POST['log_ses']);
+get_logout_process();
 
-		if($log_proc == 200){
-			redir(site_url('users'));
-		}
-	}
-}
 ?>
 
 <div class="page-header row">

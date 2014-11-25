@@ -1,4 +1,5 @@
-<?php
+<?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
+
 if(isset($_GET['register']) AND $_GET['register'] == '1'){
 	if(isset($_POST['reg_usn']) && isset($_POST['reg_pass']) && isset($_POST['reg_email']) && isset($_POST['reg_domain'])){
 		$data = array('usn'=>$_POST['reg_usn'],
@@ -12,7 +13,7 @@ if(isset($_GET['register']) AND $_GET['register'] == '1'){
 	}
 }
 ?>
-<form action="<?= $_SERVER['PHP_SELF'] ?>?register=1" method="post" id="form-register" class="separator">
+<form action="<?= $_SERVER['PHP_SELF'] ?>?register=1" method="post" id="form-register" class="">
 	<div class="form-group">
 	    <div class="input-group">
 			<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
@@ -44,7 +45,7 @@ if(isset($_GET['register']) AND $_GET['register'] == '1'){
 			<?= load_web_client_options() ?>
 		</div>
 	</div>
-	<div class="form-group text-right">
+	<div class="form-group text-right nomargin">
 		<input name="submit" id="submit" class="btn btn-danger" value="Register New API" type="submit">
 	</div>											
 </form>

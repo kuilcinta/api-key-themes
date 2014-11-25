@@ -1,11 +1,12 @@
-<?php
+<?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
+
 global $apiuserlog_session;
 ?>
-<div class="navbar navbar-default bg-primary">
+<div class="navbar navbar-default bg-primary z-index-999">
 	<div class="container-fluid">
 	    <div class="navbar-header">
-	      <a class="navbar-brand text-white important" href="<?= site_url() ?>">
-	        <img alt="Brand" height="30" src="<?= site_url('image.php?image=assets/images/icon.png&demo=resize&width=30&height=30') ?>">
+	      <a class="navbar-brand text-white important font-primary" href="<?= site_url('/') ?>">
+	        <img alt="<?= slugging(author_name()) ?>" height="30" src="<?= site_url('image.php?image=assets/images/icon.png&demo=resize&width=30&height=30') ?>">
 	      	API Version <?= api_version() ?></a>
 	    </div>
 
@@ -14,13 +15,12 @@ global $apiuserlog_session;
     		<div class="nav navbar-nav navbar-right">
 	    		<div class="collapse navbar-collapse" id="navbar-collapse-topmenu">
 		    		<?php if(isset($_GET['register'])): ?>
-		    			<a href="<?= site_url() ?>" class="navbar-btn btn btn-primary">
+		    			<a href="<?= site_url('users') ?>" class="navbar-btn btn btn-primary">
 		    				<i class="fa fa-angle-left"></i>
 		    				Back to Login</a>
 		    		<?php else: ?>
-		    			<a href="<?= site_url('users?register') ?>" class="navbar-btn btn btn-warning">
-		    				<i class="glyphicon glyphicon-credit-card"></i>
-		    				Request new API
+		    			<a href="<?= site_url('users?register') ?>" class="navbar-btn btn btn-danger">
+		    				Register New API
 		    			</a>
 		    			<a href="<?= site_url('users') ?>" class="navbar-btn btn btn-primary">
 		    				<i class="glyphicon glyphicon-lock"></i>

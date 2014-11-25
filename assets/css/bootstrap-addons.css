@@ -76,6 +76,13 @@ a:link {
     -transition: all 0.25s ease-in-out;
     transition: all 0.25s ease-in-out;
 }
+
+
+.font-primary{
+    font-family: 'BebasNeueRegular', 'Arial Narrow', Arial, sans-serif;
+}
+
+
 .parent-vertical-align {
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
@@ -91,6 +98,8 @@ a:link {
 .v-align{vertical-align: middle}
 .v-align-top{vertical-align:top}
 .v-align-bottom{vertical-align:bottom}
+
+
 
 .taglist-flat{
 	margin: 0;
@@ -135,6 +144,26 @@ hr.lister {
 .marginspace-bottom {margin:0 auto 20px auto}
 .separator.nomargin {margin:0}
 
+.spaces{
+    display:block;
+    margin:10px 0;
+}
+
+.no-overflow{
+    overflow:hidden;
+}
+.no-overflow-x{
+    overflow-x:hidden;
+}
+.no-overflow-y{
+    overflow-y:hidden;
+}
+
+
+.z-index-999{
+    z-index: 999
+}
+
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.v-align{vertical-align:middle}
@@ -152,7 +181,7 @@ hr.lister {
 .break-word-unset{word-break: unset}
 
 
-.text-gray{color:#555}
+.text-gray{color:#888}
 .text-gray-darker{color:#222}
 .text-gray-dark{color:#333}
 .text-gray-light{color:#777}
@@ -168,6 +197,7 @@ hr.lister {
 .text-smoke.important{color:#e3e3e3 !important}
 
 
+.border-white{border-color:#fff}
 .border-gray{border-color:#555}
 .border-gray-darker{border-color:#222}
 .border-gray-dark{border-color:#333}
@@ -210,6 +240,75 @@ hr.lister {
 	border-left:none;
 	border-bottom:none;
 }
+
+
+/*
+ * Custom Background Color for Bootstrap
+ */
+.nobg{background:none}
+.bg-transparent{background-color:transparent}
+.bg-maroon,
+.bg-maroon-hover:hover,
+.bg-maroon.active,
+.active > .bg-maroon
+{background-color:#C20A0A}
+.bg-yellow,
+.bg-yellow-hover:hover,
+.bg-yellow.active,
+.active > .bg-yellow
+{background-color:#FFF112}
+.bg-gray-darker,
+.bg-gray-darker-hover:hover,
+.bg-gray-darker.active,
+.active > .bg-gray-darker
+{background-color:#222}
+.bg-gray-dark,
+.bg-gray-dark-hover:hover,
+.bg-gray-dark.active,
+.active > .bg-gray-dark
+{background-color:#333}
+.bg-gray,
+.bg-gray-hover:hover,
+.bg-gray.active,
+.active > .bg-gray
+{background-color:#555}
+.bg-white,
+.bg-white-hover:hover,
+.bg-white.active,
+.active > .bg-white
+{background-color:#fff}
+.bg-gray-light,
+.bg-gray-light-hover:hover,
+.bg-gray-light.active,
+.active > .bg-gray-light
+{background-color:#777}
+.bg-gray-lighter,
+.bg-gray-lighter-hover:hover,
+.bg-gray-lighter.active,
+.active > .bg-gray-lighter
+{background-color:#EEE}
+.bg-smoke,
+.bg-smoke-hover:hover,
+.bg-smoke.active,
+.active > .bg-smoke
+{background-color:#e3e3e3}
+.bg-muted,
+.bg-muted-hover:hover,
+.bg-muted.active,
+.active > .bg-muted
+{background-color:#989898}
+.bg-warning-hover:hover,
+.bg-warning.active,
+.active > .bg-warning
+{background-color:#FFF7D1}
+.bg-danger-hover:hover,
+.bg-danger.active,
+.active > .bg-danger
+{background-color:#FFE1E1}
+.bg-primary-hover:hover,
+.bg-primary.active,
+.active > .bg-primary
+{background-color:#D91616}
 
 
 .bg-gray-darker,

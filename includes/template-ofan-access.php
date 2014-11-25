@@ -1,4 +1,5 @@
-<?php
+<?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
+
 if(isset($_GET['access'])){
 	global $Ofan, $KeyLogging;
 	if(isset($_POST['key'])){

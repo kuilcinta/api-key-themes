@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
 
 /**
  * @author ofanebob

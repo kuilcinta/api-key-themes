@@ -1,3 +1,5 @@
+<?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404'); ?>
+
 <div class="page-header row">
 	<h1 class="col-lg-8">All API Data Lists</h1>
 	<div class="col-lg-4 text-right">

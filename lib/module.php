@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
 
 function is_login(){
 	if(empty($_SESSION['apiuserlog'])){
@@ -172,7 +172,8 @@ function load_head($args=false){ ?>
 	if($args['script']==true){
 		load_data_script();
 		load_script(
-			array('turbolinks'.$suffix_mod.'.js',
+			array('modernizr.custom.86080'.$suffix_mod.'.js',
+				  'turbolinks'.$suffix_mod.'.js',
 				  'jquery-1.11.1'.$suffix_mod.'.js',
 				  'jquery-turbolinks'.$suffix_mod.'.js',
 				  'bootstrap'.$suffix_mod.'.js',
@@ -186,7 +187,7 @@ function load_head($args=false){ ?>
 			array('bootstrap'.$suffix_mod.'.css',
 				  'bootstrap-theme'.$suffix_mod.'.css',
 				  'bootstrap-addons'.$suffix_mod.'.css',
-				  'font-awesome'.$suffix_mod.'.css',
+				  'slide-background'.$suffix_mod.'.css',
 				  'style'.$suffix_mod.'.css'
 				  ),
 			true);
@@ -196,13 +197,25 @@ function load_head($args=false){ ?>
 function get_error_alert(){
 	if(isset($_GET['error'])): ?>
 		<div class="alert alert-danger">
-			<a href="<?= $_SERVER['REQUEST_URI'] ?>" class="pull-right">tutup</a>
 			<?= isset($_GET['msg']) ? statusCode($_GET['msg'],'en') : '' ?>
 		</div>
 	<?php endif;
 }
 
-function get_header($script=false,$style=false){
+function get_logout_process(){
+	global $Users;
+	if(isset($_GET['logout'])){
+		if(isset($_POST['log_ses'])) {
+			$log_proc = $Users->logout($_POST['log_ses']);
+
+			if($log_proc == 200){
+				redir(site_url());
+			}
+		}
+	}
+}
+
+function get_header($script=false,$style=false,$args=array()){
 //$apiuserlog_session = $_SESSION['apiuserlog'];
 ?>
 <!DOCTYPE html>
@@ -210,7 +223,7 @@ function get_header($script=false,$style=false){
 <head>
 <?php load_head(array('script'=>$script,'style'=>$style)) ?>
 </head>
-<body>
+<body <?= isset($args['body_class']) ? 'class="'.$args['body_class'].'"' : '' ?>>
 <div class="wrapper clearfix">
 <header>
 <?php get_template_php('includes/template','navbar') ?>
@@ -219,28 +232,69 @@ function get_header($script=false,$style=false){
 <?php
 }
 
-function get_footer(){ ?>
+function get_footer($footertag=true){ ?>
 </section>
-<?php get_template_php('includes/template','footer') ?>
+<?php
+if($footertag==true)
+ get_template_php('includes/template','footer') ?>
 </div>
 </body>
 </html>
 <?php
 }
 
+function slide_home(){
+	$data = array('With Self Hosting Server',
+				  'Scalable Development',
+				  'For User & Developer',
+				  'Easy Configuring API',
+				  'Build with JSON format',
+				  'Control Log Access');
+	return $data;
+}
+
+function slide_home_css(){
+	$data = slide_home();
+	$total_data = count($data);
+	
+	for($i=0;$i<$total_data;$i++){
+		echo '
+		.cb-slideshow li:nth-child('.($i+1).') span { 
+		    background-image: url(assets/slides/'.($i+1).'.jpg);
+		';
+
+		if($i+1 !== 1){
+		echo '
+		    -webkit-animation-delay: '.($total_data*$i).'s;
+		    -moz-animation-delay: '.($total_data*$i).'s;
+		    -o-animation-delay: '.($total_data*$i).'s;
+		    -ms-animation-delay: '.($total_data*$i).'s;
+		    animation-delay: '.($total_data*$i).'s;
+		';
+		}
+
+		echo '}'."\n";
+
+		if($i+1 !== 1){
+		echo '
+			.cb-slideshow li:nth-child('.($i+1).') div { 
+			    -webkit-animation-delay: '.($total_data*$i).'s;
+			    -moz-animation-delay: '.($total_data*$i).'s;
+			    -o-animation-delay: '.($total_data*$i).'s;
+			    -ms-animation-delay: '.($total_data*$i).'s;
+			    animation-delay: '.($total_data*$i).'s;
+			}
+		'."\n";
+		}
+	}
+}
+
 function get_template_php($file='',$name=''){
 	if($file!='' && $name!=''){
 		$ext = '.php';
-		$full_file_name = dirname(__FILE__).'/../'.$file.'-'.$name.$ext;
-		if(file_exists($full_file_name)){
+		$full_file_name = BASEDIR.'/'.$file.'-'.$name.$ext;
+		if(file_exists($full_file_name))
 			include($full_file_name);
-		}
-		else{
-			$full_file_name_dir = dirname(__FILE__).'/'.$file.'-'.$name.$ext;
-			if(file_exists($full_file_name_dir)){
-				include($full_file_name);
-			}
-		}
 	}
 }
 
@@ -262,5 +316,11 @@ function load_error_template($headinfo=true,$header=true,$footer=false){
 
 function to_link($url='',$text='',$target='_blank',$title=''){
 	return '<a href="'.$url.'" target="'.$target.'" '.($title ? $title : $text).'>'.$text.'</a>';
+}
+
+function slugging($s){
+	$s = preg_replace('/[\/\?\._ ]/','-',$s);
+	$s = strtolower($s);
+	return $s;
 }
 ?>
