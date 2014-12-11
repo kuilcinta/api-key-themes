@@ -2,14 +2,14 @@
 
 global $Users, $apiuserlog_session, $userid_session;
 
-get_logout_process();
-
 ?>
 
 <div class="page-header row">
 	<h1 class="col-lg-8">Data <?= $Users->get_userlog_full_name($apiuserlog_session) ?></h1>
 	<div class="col-lg-4 text-right">
-		<a class="btn btn-danger" href="<?= site_url('users?edit') ?>"><i class="glyphicon glyphicon-pencil"></i> Edit Account</a>
+		<a class="btn btn-danger" href="<?= site_url('users/change') ?>">
+			<i class="glyphicon glyphicon-pencil"></i> Edit Account
+		</a>
 	</div>
 </div>
 

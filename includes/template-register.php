@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
 
-if(isset($_GET['register']) AND $_GET['register'] == '1'){
+if(isset($_POST['push']) AND $_POST['push'] == 1){
 	if(isset($_POST['reg_usn']) && isset($_POST['reg_pass']) && isset($_POST['reg_email']) && isset($_POST['reg_domain'])){
 		$data = array('usn'=>$_POST['reg_usn'],
 					  'pass'=>$_POST['reg_pass'],
@@ -13,7 +13,7 @@ if(isset($_GET['register']) AND $_GET['register'] == '1'){
 	}
 }
 ?>
-<form action="<?= $_SERVER['PHP_SELF'] ?>?register=1" method="post" id="form-register" class="">
+<form action="<?= site_url('users/register') ?>" method="post" id="form-register" class="">
 	<div class="form-group">
 	    <div class="input-group">
 			<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
@@ -42,10 +42,11 @@ if(isset($_GET['register']) AND $_GET['register'] == '1'){
 		<label form="reg_client">Select Type API, for:</label>
 		<div class="input-group">
 			<span class="input-group-addon"><span class="glyphicon glyphicon-flag"></span></span>
-			<?= load_web_client_options() ?>
+			<?= load_web_client_options(array('name'=>'reg_client')) ?>
 		</div>
 	</div>
 	<div class="form-group text-right nomargin">
+		<input type="hidden" name="push" value="1" />
 		<input name="submit" id="submit" class="btn btn-danger" value="Register New API" type="submit">
 	</div>											
 </form>

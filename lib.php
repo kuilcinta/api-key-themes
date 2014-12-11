@@ -1,16 +1,32 @@
-<?php
+<?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
+
 /**
  * Load lib php function
+ *
+ * @since v1.0
  * @author Ofan Ebob
+ * @copyright 2014 Ofan Ebob Studio Web & Design
  */
-require_once(LIB_PATH.'/error.php');
-require_once(LIB_PATH.'/db.php');
-require_once(LIB_PATH.'/crud.php');
-require_once(LIB_PATH.'/status.php');
-require_once(LIB_PATH.'/headers.php');
-require_once(LIB_PATH.'/curl.php');
-require_once(LIB_PATH.'/options.php');
-require_once(LIB_PATH.'/module.php');
-require_once(LIB_PATH.'/user.php');
-require_once(LIB_PATH.'/json_api_key.php');
+
+$libs = array(	'error',
+				'db',
+				'crud',
+				'status',
+				'headers',
+				'curl',
+				'options',
+				'setting',
+				'module',
+				'email',
+				'user',
+				'key',
+				'tojson'
+			);
+
+// Looping file lib
+foreach($libs as $lib){
+	$lib_data = LIB_PATH.'/'.$lib.'.php';
+	if(file_exists($lib_data)) require_once($lib_data);
+}
+
 ?>

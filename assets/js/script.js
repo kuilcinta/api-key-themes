@@ -5,7 +5,11 @@
  */
 
 jQuery(document).ready(function(){
-    
+
+    setTimeout(function(){ jQuery('.alert-timout').remove() }, 4000);
+
+    jQuery('a#popover').popover();
+
     jQuery('body').on('keyup','textarea.getCaret',function (event) {
         if (event.keyCode == 13 && event.shiftKey) {
             var content = this.value;

@@ -76,9 +76,9 @@ error_reporting(E_ALL);
  * Mengatasi ERROR dengan mengalihkan halaman sesuai kode "redirect"
  */
 function redirError($args=false){
-	$msg = isset($args['msg']) ? urlencode($args['msg']) : 0;
+	$msg = isset($args['msg']) ? urlencode($args['msg']) : (is_numeric($args) ? $args : 0);
 	$uri = isset($args['uri']) ? $args['uri'] : site_url();
-	$url = preg_match('/\?/', $uri) ? "&msg=$msg&error" : "?msg=$msg&error";
+	$url = preg_match('/\?/', $uri) ? "&page=error&msg=$msg" : "?page=error&msg=$msg";
 	header("Location:$uri$url");
 	//header("refresh: 5; $uri$url");
 }
@@ -88,7 +88,8 @@ function redirError($args=false){
  * Fungsi redir
  * Mengalihkan halaman secara umum dengan penambahan parameter URL dynamic
  */
-function redir($url){
+function redir($url=null){
+	$url = $url == null ? site_url() : $url;
 	header("Location:$url");
 }
 ?>

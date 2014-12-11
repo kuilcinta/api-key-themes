@@ -5,7 +5,7 @@
  * @copyright 2014
  * Perubahan method DB_Class dari pemanggilan database standar mysql
  * Dirubah menjadi method OOP mysqli
- * Berlaku untuk semua versi PHP kecuali di di atas 5.4.9 Depreceted
+ * Berlaku untuk semua versi PHP kecuali di atas 5.4.9 Depreceted
  */
 
 class DB_Class {

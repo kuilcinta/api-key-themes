@@ -1,11 +1,20 @@
 <?php
-//session_start();
+/**
+ * v1.php Files
+ * Handle direct request API Data with auth or session log users
+ * This is port to call method ToJson class (lib/tojson.php)
+ *
+ * @since v1.0
+ * @author Ofan Ebob
+ * @copyright 2014
+ *
+ */
 
+/* including config files for OOP method */
 require_once(dirname(__FILE__).'/config.php');
 
-//echo $_SESSION['apiuserlog'];
-
 if(empty($_GET['ids'])){
+	/* Blocking request if paramater ID empty */
 	load_error_template(true,true,true);
 }
 else{
@@ -23,16 +32,20 @@ else{
 		header("HTTP/1.0 200 Successfully");
 		header("Content-Type: application/json");
 
+		/* Additional header type content "Download" if parameter URL have download value */
 		if(isset($_GET['download'])){
 			$langs = isset($_GET['lang']) ? '_'.$_GET['lang'] : '';
 			header("Content-Disposition: attachment; filename=\"auth_key_$idapi$langs.json\"");
 		}
 
+		/* Clear cache browser every request API */
 		nocache_headers();
 
+		/* Output API if retriving successed */
 		echo json_encode($formatting_json_request);
 	}
 	else{
+		/* Handle request with header HTTP code information if API request failed */
 		header("HTTP/1.0 $json_code_respon $translate_response_code");
 		echo $translate_response_code;
 	}

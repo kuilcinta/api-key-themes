@@ -1,12 +1,8 @@
-<?php
-ob_start("ob_gzhandler");
-//session_start();
-
-require_once(dirname(__FILE__).'/../config.php');
+<?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
 
 get_header(true,true);
 
-if(isset($_GET['success'])):
+if(isset($_GET['data']) AND $_GET['data']=='success'):
 	get_template_php('includes/template','success');
 else:
 ?>
@@ -33,10 +29,10 @@ else:
 				</h2>
 			</div>
 
-			<?php get_error_alert() ?>
+			<?php get_global_alert() ?>
 
 			<?php
-			if(isset($_GET['register'])):
+			if(isset($_GET['data']) AND $_GET['data']=='register'):
 				echo '<div class="separator">';
 				get_template_php('includes/template','register');
 				echo '</div>';
@@ -51,8 +47,8 @@ else:
 	<?php else: ?>
 
 		<div class="col-lg-pull-2 col-lg-8 col-lg-push-2">
-			<?php if(isset($_GET['edit'])): ?>
-				<?php get_template_php('includes/template','edit-user'); ?>
+			<?php if(isset($_GET['change'])): ?>
+				<?php get_template_php('includes/template','change-user'); ?>
 			<?php else: ?>
 				<?php get_template_php('includes/template','dashboard'); ?>
 			<?php endif; ?>
@@ -70,5 +66,4 @@ endif;
 
 get_footer();
 
-ob_end_flush();
 ?>

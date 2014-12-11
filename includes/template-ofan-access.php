@@ -1,14 +1,12 @@
 <?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
 
-if(isset($_GET['access'])){
+if(isset($_POST['key'])){
 	global $Ofan, $KeyLogging;
-	if(isset($_POST['key'])){
-		return $KeyLogging->access($_POST['key']);
-	}
+	return $KeyLogging->access($_POST['key']);
 }
 ?>
 
-<form action="<?= $_SERVER['PHP_SELF'] ?>?access" method="post" id="form-login" class="form_access">
+<form action="<?= $_SERVER['REQUEST_URI'] ?>" method="post" id="form-login" class="form_access">
 	<div class="form-group">
 	    <div class="input-group">
 			<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>

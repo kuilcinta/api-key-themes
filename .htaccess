@@ -5,8 +5,16 @@ ErrorDocument 404 http://192.168.1.5/api.ofanebob.com?page=error&msg=404
 ErrorDocument 401 http://192.168.1.5/api.ofanebob.com?page=error&msg=401
 ErrorDocument 403 http://192.168.1.5/api.ofanebob.com?page=error&msg=403
 
+<Files "config.php">
+Order Allow,Deny
+Deny from all
+</Files>
+
 <IfModule mod_rewrite.c>
+
 RewriteEngine On
+
+RewriteRule /?\.htaccess$ - [F,L]
 
 RewriteRule ^v1$ v1.php
 
@@ -27,4 +35,17 @@ RewriteRule ^v1\/download\/([a-zA-Z0-9_-]+)\/([0-9]+)\.json$ v1.php?download&lan
 RewriteRule ^v1\/download\/([a-zA-Z0-9_-]+)\/([0-9]+)\/$ v1.php?download&lang=$1&ids=$2
 RewriteRule ^v1\/download\/([a-zA-Z0-9_-]+)\/([0-9]+)$ v1.php?download&lang=$1&ids=$2
 RewriteRule ^v1\/download\/([a-zA-Z0-9_-]+)\/([0-9]+).json$ v1.php?download&lang=$1&ids=$2
+
+RewriteRule ^verify\/([a-zA-Z0-9\=_-]+)$ index.php?page=verify&c=$1
+
+#Change url dynamic to access view directory
+RewriteRule ^([a-zA-Z0-9\_-]+)$ index.php?view=$1
+RewriteRule ^([a-zA-Z0-9\_-]+)\/$ index.php?view=$1
+RewriteRule ^([a-zA-Z0-9\_-]+)\/([a-zA-Z0-9\_-]+)$ index.php?view=$1&data=$2
+RewriteRule ^([a-zA-Z0-9\_-]+)\/add\/([a-zA-Z0-9\_-]+)$ index.php?view=$1&add=$2
+RewriteRule ^([a-zA-Z0-9\_-]+)\/edit\/([a-zA-Z0-9\_-]+)\/([0-9]+)$ index.php?view=$1&edit=$2&id=$3
+RewriteRule ^([a-zA-Z0-9\_-]+)\/drop\/([0-9]+)$ index.php?view=$1&drop=$2
+RewriteRule ^([a-zA-Z0-9\_-]+)\/change$ index.php?view=$1&change
+RewriteRule ^([a-zA-Z0-9\_-]+)\/change/push$ index.php?view=$1&change=push
+
 </IfModule>

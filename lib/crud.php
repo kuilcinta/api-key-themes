@@ -1,13 +1,17 @@
 <?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
 /**
- * @author ofanebob
- * @copyright 2014
  * Class Crud_Service
- * @since v.1.0
+ *
  * Adalah kelas untuk mengatasi permintaan database dari user pada server dalam bentuk universal
  * Didefinisikan sesuai standar MySQL Statment dalam transaksi data yaitu:
- * Create, Read, Update & Delete
- * Ditambahkan beberapa fungsi dari masing2 statment yang terintegrasi dengan Class DB_Class
+ * Create, Read, Update & Delete (atau disingkat CRUD)
+ * Ditambahkan beberapa fungsi dari masing2 statment yang terintegrasi dengan DB_Class
+ * Class Database tersebut didefinisikan di __construct untuk semua ruang lingkup class Crud_Service
+ *
+ * @since v.1.0
+ * @author Ofan Ebob
+ * @copyright 2014
+ *
  */
 
 class Crud_Service {
@@ -33,11 +37,10 @@ class Crud_Service {
 
 	/**
      * @since v.1.0
-	 * Mendefinisikan database dalam fungsi publik
+	 * Mendefinisikan database dalam fungsi bersifat publik
 	 * Ini adalah fungsi yang akan di akses oleh fungsi dari method lain diluar class Crud_Service
 	 * Didalamnya mencakup pemanggilan member fungsi dari Class induk yg bersifat protected
-     * Sehingga proses AJAX/Direct akan mendapat response langsung berupa nilai integer I/O /
-     * \tanpa perlu mengakses fungsi protected
+     * Sehingga proses AJAX/Direct akan mendapat response langsung berupa nilai integer 1/0
 	 */
 	public function _DefineDB_Process(){
 		$type_query = $this->_type;
@@ -58,8 +61,8 @@ class Crud_Service {
 				return $this->_DeleteDB();
 			break;
 
-            case 'upload':
-                return $this->_Upload();
+            case 'showcol':
+                return $this->_ShowColumn();
             break;
 
 			default:
@@ -74,6 +77,11 @@ class Crud_Service {
      * @since v.1.0
      * _CreateDB()
      * Memuat statement INSERT database MySQL
+     *
+     * INDEX ARRAY:
+     * $datasets['tbl'] >> untuk identifikasi nama table yang akan dimasukan value
+     * $datasets['prm'] >> nama-nama rows dalam table berisi value yg akan dibuat
+     * contoh: array('tbl'=>'nama_table', 'prm'=>array('row_1'=>'A','row_2'=>'B'))
      */
 	protected function _CreateDB(){
 		$datasets = $this->_dataset;
@@ -88,12 +96,13 @@ class Crud_Service {
          * array('tbl'=>'strings','prm'=>array('cols'=>'vals','cols'=>'vals'))
          *
          * Ilustrasi Column
-         * ---------------------------------|-------------------------------------------|-----------------------------------|
-         * PARAMETER INDEX ARRAY 			| PARAMETER DATA ARAY 						| PARAMETER FOREACH 				|
-         * ---------------------------------|-------------------------------------------|-----------------------------------|
-         * $datasets['prm']['nama_kolom']	| 'prm'=>array('nama_kolom'=>'isi_kolom')	| foreach($params as $col => $val)	|
-         * $datasets['prm']['isi_kolom']	|											|									|
-         * ---------------------------------|-------------------------------------------|-----------------------------------|
+         * ---------------------------------|-------------------------------------------|--------------------------------------|
+         * PARAMETER INDEX ARRAY 			| PARAMETER DATA ARAY 						| PARAMETER FOREACH 				   |
+         * ---------------------------------|-------------------------------------------|--------------------------------------|
+         * $datasets['prm']['nama_kolom']	| 'prm'=>array('nama_kolom'=>'isi_kolom')	| foreach($params as $col => $val)     |
+         * $datasets['prm']['isi_kolom']	|											| join($column,',') & join($value,',') |
+         *                                  |                                           | ($column) VALUES ($value)            |
+         * ---------------------------------|-------------------------------------------|--------------------------------------|
          */
         $column = '';
         $value = '';
@@ -125,19 +134,25 @@ class Crud_Service {
      * @since v.1.0
      * _ReadDB()
      * Memuat statement SELECT database MySQL
+     *
+     * INDEX ARRAY:
+     * $datasets['from'] >> untuk identifikasi nama table yang akan diakses
+     * $datasets['tbl'] >> untuk identifikasi nama table yang akan diambil databasenya
+     * $datasets['prm'] >> nama-nama rows dalam table berisi value yg akan dibuat
+     * contoh: array('from'=>'nama_table',tbl'=>'nama_table', 'prm'=>array('row_1'=>'A','row_2'=>'B'))
      */
 	protected function _ReadDB(){
 		$datasets = $this->_dataset;
 
-		$from = $datasets['from'];
+		$table = $datasets['tbl'];
         
-        if(empty($from)) exit(0);
+        if(empty($table)) exit(0);
 
-        $table = isset($datasets['tbl']) ? $datasets['tbl'] : '*';
+        $row = isset($datasets['row']) ? $datasets['row'] : '*';
 		$params = isset($datasets['prm']) ? $datasets['prm'] : '';
 
         
-        $sql = "SELECT $table FROM $from $params";
+        $sql = "SELECT $row FROM $table $params";
         $result = $this->_conected->query($sql);
 
         return $result;
@@ -148,6 +163,11 @@ class Crud_Service {
      * @since v.1.0
      * _UpdateDB()
      * Memuat statement UPDATE database MySQL
+     *
+     * INDEX ARRAY:
+     * $datasets['tbl'] >> untuk identifikasi nama table yang akan di modifikasi
+     * $datasets['prm'] >> nama-nama rows dalam table berisi value yg akan di modifikasi
+     * contoh: array(tbl'=>'nama_table', 'prm'=>array('row_1'=>'A','row_2'=>'B'))
      */
 	protected function _UpdateDB(){
 		$datasets = $this->_dataset;
@@ -156,7 +176,21 @@ class Crud_Service {
 		$params = $datasets['prm'];
 
         if(!$table && !$params && !is_array($params)) exit(0);
-        
+
+        /* 
+         * DATA ARRAY DEFAULT RECEIVED:
+         * array('tbl'=>'strings','prm'=>array('cols'=>'vals','cols'=>'vals'))
+         *
+         * Ilustrasi Column
+         * ---------------------------------|-------------------------------------------|--------------------------------------|
+         * PARAMETER INDEX ARRAY            | PARAMETER DATA ARAY                       | PARAMETER FOREACH                    |
+         * ---------------------------------|-------------------------------------------|--------------------------------------|
+         * $datasets['prm']['nama_kolom']   | 'prm'=>array('nama_kolom'=>'isi_kolom')   | foreach($params as $col => $val)     |
+         * $datasets['prm']['isi_kolom']    |                                           | $coval[] = "$cols=$val"              |
+         *                                  |                                           | join($coval,',')                     |
+         * ---------------------------------|-------------------------------------------|--------------------------------------|
+         */
+
         $condition = isset($datasets['con']) ? $datasets['con']  : '';
 
         $coval = '';
@@ -187,6 +221,11 @@ class Crud_Service {
      * @since v.1.0
      * _DeleteDB()
      * Memuat statement DELETE database MySQL
+     *
+     * INDEX ARRAY:
+     * $datasets['tbl'] >> untuk identifikasi nama table yang akan di hapus
+     * $datasets['con'] >> membuat sebuah kondisi dengan nilai rows tertentu
+     * contoh: array(tbl'=>'nama_table', 'con'=>'id_row_1=$data_id')
      */
 	protected function _DeleteDB(){
 		$datasets = $this->_dataset;
@@ -201,15 +240,33 @@ class Crud_Service {
 
         return $result;
 	}
+
+    protected function _ShowColumn(){
+        $datasets = $this->_dataset;
+
+        $table = $datasets['tbl'];
+        
+        if(empty($table)) exit(0);
+
+        $params = isset($datasets['prm']) ? 'WHERE '.$datasets['prm'] : '';
+
+        $sql = "SHOW COLUMNS FROM {$table} {$params}";
+        $result = $this->_conected->query($sql);
+
+        return $result;
+    }
 }
 
 /**
- * @since v.1.0
- * Fungsi publik dalam method independen tanpa class
  * Access_Crud
- * Berisi baris perintah untuk mengakses class Crud_Service
+ * Fungsi publik dalam method independen tanpa class
+ * Berisi perintah untuk mengakses class Crud_Service
  * Dengan parameter $data (dalam bentuk array) dan $type (untuk CRUD dalam bentuk string)
- * Data akan di return kedalam angka/integer antara 1 atau 0
+ * Data akan di return kedalam angka/integer antara 1 atau 0 standar respon class Crud_Service
+ *
+ * @since v.1.0
+ * @author Ofan Ebob
+ * @copyright 2014
  */
 function Access_CRUD($data,$type){
 	if(!$data AND !$type) exit(0);
@@ -217,6 +274,18 @@ function Access_CRUD($data,$type){
 	return $Crud_Service->_DefineDB_Process();
 }
 
+/**
+ * auto_fetch_db
+ * Fungsi publik dalam method independen tanpa class
+ * Berisi perintah untuk mengakses class Crud_Service
+ * Dengan parameter $data (dalam bentuk array) dan $type (untuk CRUD dalam bentuk string)
+ * Dan menambahkan fungsi OOP MySQL untuk auto fetch menggunakan fetch_assoc()
+ * Data akan di return kedalam angka/integer antara 1 atau 0 standar respon class Crud_Service
+ *
+ * @since v.1.0
+ * @author Ofan Ebob
+ * @copyright 2014
+ */
 function auto_fetch_db($data,$mode='read'){
     if($data){
         $sql = Access_CRUD($data,$mode);
@@ -228,6 +297,18 @@ function auto_fetch_db($data,$mode='read'){
     }
 }
 
+/**
+ * array_fetch_db
+ * Fungsi publik dalam method independen tanpa class
+ * Berisi perintah untuk mengakses class Crud_Service
+ * Dengan parameter $data (dalam bentuk array) dan $type (untuk CRUD dalam bentuk string)
+ * Dan menambahkan fungsi OOP MySQL untuk auto fetch menggunakan fetch_array()
+ * Data akan di return kedalam angka/integer antara 1 atau 0 standar respon class Crud_Service
+ *
+ * @since v.1.0
+ * @author Ofan Ebob
+ * @copyright 2014
+ */
 function array_fetch_db($data,$mode='read'){
     if($data){
         $sql = Access_CRUD($data,$mode);

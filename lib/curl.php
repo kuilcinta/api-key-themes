@@ -1,4 +1,5 @@
 <?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
+
 /**
  * cURLs CLASS
  * Handling request data from external url/site domain

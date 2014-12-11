@@ -58,6 +58,8 @@ a:focus, a:hover {
 a:link {
     -webkit-tap-highlight-color: rgba(0, 0, 0, .3);
 }
+
+
 .h1, .h2, .h3, .h4, .h5, h1, h2, h3, h4, h5 {
     text-rendering: optimizelegibility;
     font-weight: 500;
@@ -68,6 +70,22 @@ a:link {
 .h1, .h2, h1, h2 {
     margin: 0;
 }
+h4 small.important,
+.h4 small.important,
+h5 small.important,
+.h5 small.important,
+h6 small.important,
+.h6 small.important,
+h4 .small.important,
+.h4 .small.important,
+h5 .small.important,
+.h5 .small.important,
+h6 .small.important,
+.h6 .small.important {
+    font-size: 50% !important;
+}
+
+
 :hover {
     -webkit-transition: all 0.25s ease-in-out;
     -moz-transition: all 0.25s ease-in-out;
@@ -107,15 +125,25 @@ a:link {
 	list-style: none;
 }
 
+
 .media-list .media .media-left img {
 	width:inherit;
 	height:inherit;
 }
 
+
 .nopadding{padding:0}
 .nopadding.important{padding:0 !important}
 .nomargin{margin:0}
 .nomargin.important{margin:0 !important}
+
+
+.d-block{display:block;}
+.d-inline{display:inline;}
+.d-inherit{display:inherit;}
+.d-inline-block{display:inline-block;}
+.d-inline-table{display:inline-table;}
+
 
 hr.lister {
     width: 50%;
@@ -179,6 +207,14 @@ hr.lister {
 .break-word-keep{word-break: keep-all}
 .break-word-normal{word-break: normal}
 .break-word-unset{word-break: unset}
+
+
+.color-auto{
+    color:inherit;
+}
+.color-auto.important{
+    color:inherit !important;
+}
 
 
 .text-gray{color:#888}

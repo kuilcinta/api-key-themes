@@ -30,26 +30,26 @@ class TheKey {
 	}
 
 	protected function process_key(){
-		$the_k = (string)$this->_k;
+		$the_k = $this->_k;
 		$hash_md5 = md5($the_k);
-		$the_def_k = (string)$this->_def_k;
-		$data = array('from'=>'site_opt',
+		$the_def_k = $this->_def_k;
+		$data = array('tbl'=>'site_opt',
 					  'prm'=>"WHERE opt_name='key' AND opt_value='{$hash_md5}'",
-					  'tbl'=>'*'
+					  'row'=>'*'
 					 );
 
 		$sql = Access_CRUD($data,'read');
 		
-		if($sql->num_rows != 0){
-			return true;
-		}
-		else{
+		if($sql->num_rows == 0){
 			if($the_def_k == $hash_md5){
 				return true;
 			}
 			else{
 				return false;
 			}
+		}
+		else{
+			return true;
 		}
 	}
 }
@@ -63,14 +63,15 @@ class KeyLogging {
 			return redir(site_url('ebob'));
 		}
 		else{
-			return redirError( array('uri'=>site_url('ebob'),'msg'=>$the_k) );
+			return redirError( array('uri'=>site_url('ebob'),'msg'=>$check_k) );
 		}
 	}
 
 	public static function exits($ses){
 	    //session_start();
 	    if($ses == $_SESSION['ofansession']){
-	        session_destroy();
+	        //session_destroy();
+            unset($_SESSION['ofansession']);
 	        return 200;
 	    }
 	    else{

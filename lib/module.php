@@ -50,14 +50,32 @@ function get_web_client_array(){
 	return explode('|', $data);
 }
 
-function load_web_client_options(){
-	$data = get_web_client_array();
-	$r ='<select name="reg_client" class="form-control">';
-	foreach ($data as $k => $v) {
-		$r .= '<option value="'.strtolower(preg_replace('/( )/','_',$v)).'">'.$v.'</option>';
+function load_web_client_options($args=false){
+	$name = isset($args['name']) ? $args['name'] : 'select';
+	$selected = isset($args['selected']) ? $args['selected'] : '';
+	return markup_select_html(array('data'=>get_web_client_array(),'name'=>$name,'selected'=>$selected));
+}
+
+function markup_select_html($args=false){
+	$data = isset($args['data']) ? $args['data'] : null;
+	$name_select = isset($args['name']) ? $args['name'] : 'select';
+	$selected = isset($args['selected']) ? $args['selected'] : '';
+	$value_type = isset($args['value_type']) ? ($args['value_type'] == true ? true : false) : false;
+
+	if($data !== null){
+		$r ='<select name="'.$name_select.'" class="form-control">';
+		foreach ($data as $k => $v) {
+			$values = strtolower(preg_replace('/( )/','_',$v));
+			$values = $value_type == false ? $values : $k;
+			$attr_select = $values == $selected ? 'selected' : '';
+			$r .= '<option value="'.$values.'" '.$attr_select.'>'.$v.'</option>';
+		}
+		$r .= '</select>';
+		return $r;
 	}
-	$r .= '</select>';
-	return $r;
+	else{
+		return 'NaN';
+	}
 }
 
 /**
@@ -177,6 +195,7 @@ function load_head($args=false){ ?>
 				  'jquery-1.11.1'.$suffix_mod.'.js',
 				  'jquery-turbolinks'.$suffix_mod.'.js',
 				  'bootstrap'.$suffix_mod.'.js',
+				  'bootstrap-datetimepicker'.$suffix_mod.'.js',
 				  'script'.$suffix_mod.'.js'
 				  ),
 			true);
@@ -186,6 +205,7 @@ function load_head($args=false){ ?>
 		load_style(
 			array('bootstrap'.$suffix_mod.'.css',
 				  'bootstrap-theme'.$suffix_mod.'.css',
+				  'bootstrap-datetimepicker'.$suffix_mod.'.css',
 				  'bootstrap-addons'.$suffix_mod.'.css',
 				  'slide-background'.$suffix_mod.'.css',
 				  'style'.$suffix_mod.'.css'
@@ -194,25 +214,142 @@ function load_head($args=false){ ?>
 	}
 }
 
-function get_error_alert(){
-	if(isset($_GET['error'])): ?>
-		<div class="alert alert-danger">
-			<?= isset($_GET['msg']) ? statusCode($_GET['msg'],'en') : '' ?>
-		</div>
-	<?php endif;
+function alert_markup($args=false){
+	$type = isset($args['type']) ? $args['type'] : 'primary';
+	$msg = isset($args['msg']) ? $args['msg'] : 'Error';
+	$icon = isset($args['icon']) ? '<i class="'.$args['icon'].'"></i>&nbsp;' : '';
+	$timeout = isset($args['timeout']) ? ($args['timeout'] == true ? 'alert-timout' : '') : '';
+
+	$html = '
+	<div class="alert alert-'.$type.' '.$timeout.'">
+		'.$icon.'
+		'.(is_numeric($msg) ? statusCode($msg,'en') : $msg).'
+	</div>
+	';
+	return $html;
+}
+
+function get_global_alert($alert_code=false){
+	if(is_numeric($alert_code)):
+		
+		if( in_array($alert_code, range(200,226)) ){
+			$class = 'success';
+			$icon = 'glyphicon glyphicon-ok';
+		}
+		elseif( in_array($alert_code, range(300,308)) ){
+			$class = 'warning';
+			$icon = 'glyphicon glyphicon-exclamation-sign';
+		}
+		elseif( in_array($alert_code, range(400,500)) ){
+			$class = 'danger';
+			$icon = 'fa fa-warning';
+		}
+		else{
+			$class = 'info';
+			$icon = 'glyphicon glyphicon-info-sign';
+		}
+		
+		$data = array('type'=>$class,'msg'=>$alert_code,'icon'=>$icon);
+
+		if(is_numeric($alert_code)){
+			$data['timeout'] = true;
+		}
+
+		echo alert_markup($data);
+	endif;
 }
 
 function get_logout_process(){
-	global $Users;
+	global $Users, $KeyLogging;
 	if(isset($_GET['logout'])){
-		if(isset($_POST['log_ses'])) {
-			$log_proc = $Users->logout($_POST['log_ses']);
+		if(isset($_POST['log_ses']) AND isset($_POST['log_pos'])) {
+
+			$log_proc = $_POST['log_pos'] == 'ebob' ? $KeyLogging->exits($_POST['log_ses']) : $Users->logout($_POST['log_ses']);
 
 			if($log_proc == 200){
 				redir(site_url());
 			}
+			else{
+				redir($_SERVER['REQUEST_URI']);
+			}
 		}
 	}
+}
+
+function get_form_drop($args=false)
+{
+	if(is_array($args))
+	{
+		$title = isset($args['title']) ? $args['title'] : null;
+		$suffix = isset($args['suffix']) ? $args['suffix'] : '';
+		$form = isset($args['form']) ? $args['form'] : array('action'=>$_SERVER['SELF_PHP'],'method'=>'POST');
+		$submit = isset($args['submit']) ? $args['submit'] : null;
+		$input_text = isset($args['input_text']) ? $args['input_text'] : null;
+		$input_hidden = isset($args['input_hidden']) ? $args['input_hidden'] : null;
+		$input_button = isset($args['input_button']) ? $args['input_button'] : null;
+		$print = isset($args['print']) ? $args['print'] : false;
+
+		$html = '<div class="panel panel-'.($title == null ? 'default' : 'danger').'">';
+
+		if($title !== null)
+		{
+			$html .= '<div class="panel-heading"><h4 class="nomargin">'.$title.'</h4></div>';
+		}
+
+		$html .= '<div class="panel-body">';
+		$html .= '<form action="'.$form['action'].'" method="'.$form['method'].'" id="'.$suffix.'form_drop">';
+		if($input_text !== null)
+		{
+			foreach ($input_text as $index => $value) {
+				$html .= '<div class="form-group"><div class="input-group w-100cent">';
+		    	$html .= '<label for="'.$suffix.$index.'">'.ucwords(preg_replace('/\_/', '  ', $suffix).$index).'</label>';
+				$html .= '<input type="text" name="'.$suffix.$index.'" value="'.$value.'" class="input form-control" />';
+				$html .= '</div></div>';
+			}
+		}
+
+		if($input_hidden !== null)
+		{
+			foreach ($input_hidden as $index => $value) {
+				$html .= '<input type="hidden" name="'.$suffix.$index.'" value="'.$value.'" />';
+			}
+		}
+
+		if($input_button !== null)
+		{
+			foreach ($input_button as $index => $value) {
+				$html .= '<div class="form-group nomargin"><div class="input-group w-100cent text-right">';
+				$html .= '<button class="btn btn-primary">'.$value.'</button>&nbsp;';
+			}
+		}
+		else{
+			$html .= '<div class="form-group nomargin"><div class="input-group w-100cent text-right">';
+		}
+
+		if($submit !== null)
+		{
+			$html .= '<input type="submit" value="'.$submit['value'].'" class="'.$submit['class'].'">';
+		}
+
+		$html .= '</div></div>';
+		$html .= '</form>';
+		$html .= '</div></div>';
+
+		if($print==true)
+		{
+			echo $html;
+		}
+		else
+		{
+			return $html;
+		}
+	}
+}
+
+function get_pathdiruri_bool($string=null){
+	$dir_name = preg_replace('/(\/)/','',dirname($position));
+	$base_name = preg_replace('/(\/)/','',basename($position));
+	return $dir_name == $string OR $base_name == $string ? true : false;
 }
 
 function get_header($script=false,$style=false,$args=array()){
@@ -244,23 +381,28 @@ if($footertag==true)
 }
 
 function slide_home(){
-	$data = array('With Self Hosting Server',
-				  'Scalable Development',
-				  'For User & Developer',
-				  'Easy Configuring API',
-				  'Build with JSON format',
-				  'Control Log Access');
+	$data = array('path'=>site_url('assets/slides'),
+				  'data'=>array(1=>array('With Self Hosting Server','1.jpg'),
+				  				2=>array('Scalable Development','2.jpg'),
+				  				3=>array('For User & Developer','3.jpg'),
+				  				4=>array('Easy Configuring API','4.jpg'),
+				  				5=>array('Build with JSON format','5.jpg'),
+				  				6=>array('Control Log Access','6.jpg')
+				  				)
+				);
 	return $data;
 }
 
 function slide_home_css(){
-	$data = slide_home();
+	$source = slide_home();
+	$path = $source['path'];
+	$data = $source['data'];
 	$total_data = count($data);
 	
 	for($i=0;$i<$total_data;$i++){
 		echo '
 		.cb-slideshow li:nth-child('.($i+1).') span { 
-		    background-image: url(assets/slides/'.($i+1).'.jpg);
+		    background-image: url('.$path.'/'.$data[$i+1][1].');
 		';
 
 		if($i+1 !== 1){
@@ -311,6 +453,70 @@ function load_error_template($headinfo=true,$header=true,$footer=false){
 
 	if($footer==true){
 		get_footer();
+	}
+}
+
+function verify_account($args=null){
+	global $Users;
+
+	if($args !== null){
+
+		$data = base64_decode($args);
+
+		if($data){
+
+			preg_match_all('/[\;]/i', $data, $found_delimiter);
+			if(count($found_delimiter[0]) == 2){
+
+				$data = explode(';', $data);
+				$usn = $data[0];
+				$pas = $data[1];
+				$vld = $data[2];
+
+				$UserService = new User_Service($usn,$pas,null);
+				$check_user = $UserService->check_user_exist();
+
+				if($check_user !== null){
+
+					$user_db = $check_user->fetch_array();
+					$user_valid = $user_db['user_valid_cache'];
+
+					if( $user_valid != '' AND $user_valid != 0 AND $vld == $user_valid){
+
+						$prm = array('user_valid_cache'=>0,'user_status'=>'Y');
+						$data = array('id'=>$user_db['user_id'],'prm'=>$prm);
+						$update_valid = $Users->update_user_db($data);
+
+						if($update_valid){
+							redir(site_url('users'));
+						}
+						else{
+							redir(site_url('?page=error&msg=400'));
+						}
+
+					}
+					else{
+						redir(site_url('?page=error&msg=406'));
+					}
+
+				}
+				else{
+					redir(site_url('?page=error&msg=401'));
+				}
+
+			}
+			else{
+				redir(site_url('?page=error&msg=422'));
+			}
+
+		}
+		else{
+			redir(site_url('?page=error&msg=422'));
+		}
+	}
+
+	else{
+		redir(site_url('?page=error&msg=404'));
 	}
 }
 

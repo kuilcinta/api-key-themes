@@ -1,11 +1,6 @@
-<?php
-ob_start("ob_gzhandler");
-//session_start();
+<?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
 
-require_once(dirname(__FILE__).'/../config.php');
-require_once(dirname(__FILE__).'/../lib/key.php');
-
-//if(isset($_SESSION['ofansession'])) exit('berhasil login');
+global $ofan_session;
 
 get_header(true,true);
 ?>
@@ -27,16 +22,27 @@ get_header(true,true);
 			<?php endif; ?>
 
 			<?php get_template_php('includes/template','ofan-access') ?>
+
 		</div>
 
 	<?php else: ?>
 
-		<div class="col-lg-pull-2 col-lg-8 col-lg-push-2">
-			<?php if(isset($_GET['edit'])): ?>
-				<?php get_template_php('includes/template','edit-api'); ?>
-			<?php else: ?>
-				<?php get_template_php('includes/template','data-api'); ?>
-			<?php endif; ?>
+		<div class="col-lg-pull-1 col-lg-10 col-lg-push-1">
+
+			<?php
+
+			if( isset($_GET['data']) ):
+				get_template_php('includes/template','data-'.$_GET['data']);
+			elseif( isset($_GET['edit']) ):
+				get_template_php('includes/template','edit-'.$_GET['edit']);
+			elseif( isset($_GET['add']) ):
+				get_template_php('includes/template','add-'.$_GET['add']);
+			else:
+				get_template_php('includes/template','data-api');
+			endif;
+
+			?>
+
 		</div>
 
 	<?php endif; ?>
@@ -47,6 +53,4 @@ get_header(true,true);
 
 <?php
 get_footer();
-
-ob_end_flush();
 ?>

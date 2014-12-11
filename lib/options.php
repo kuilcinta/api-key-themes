@@ -1,8 +1,8 @@
 <?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
 
 function get_site_options($table=''){
-    $data = array(  'tbl'=>'*',
-                    'from'=>'site_opt',
+    $data = array(  'row'=>'*',
+                    'tbl'=>'site_opt',
                     'prm'=>"WHERE opt_name='{$table}'"
                  );
 

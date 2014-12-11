@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEDIR')) header('Location:page=error&msg=404');
 
-if(isset($_GET['login'])){
+if(isset($_POST['push']) AND $_POST['push'] == 1){
 	global $Users;
 	if(isset($_POST['log_usn']) && isset($_POST['log_pass'])){
 		$Users->login($_POST['log_usn'],$_POST['log_pass'],0,'redirect');
@@ -8,7 +8,7 @@ if(isset($_GET['login'])){
 }
 ?>
 
-<form action="<?= $_SERVER['PHP_SELF'] ?>?login" method="post" id="form-login" class="">
+<form action="<?= site_url('users') ?>" method="post" id="form-login" class="">
 	<div class="form-group">
 	    <div class="input-group">
 			<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
@@ -28,6 +28,7 @@ if(isset($_GET['login'])){
 				<label>Remember me!</label>
 			</div>
 			<div class="col-lg-6 text-right">
+				<input type="hidden" name="push" value="1" />
 				<input name="submit" id="submit" class="btn btn-primary" value="Log In" type="submit">
 			</div>
 		</div>
