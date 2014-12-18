@@ -19,3 +19,4 @@ Version Information:
 </ul>
 
 URL Parameter Sample Request: http://YOUR_DOMAIN/v1/API_ID.json
+<small>Note: Authorizing require, use login panel OR cURL credential</small>

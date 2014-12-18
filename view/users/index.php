@@ -3,7 +3,7 @@
 get_header(true,true);
 
 if(isset($_GET['data']) AND $_GET['data']=='success'):
-	get_template_php('includes/template','success');
+	get_template_php('inc/template','success');
 else:
 ?>
 
@@ -34,11 +34,11 @@ else:
 			<?php
 			if(isset($_GET['data']) AND $_GET['data']=='register'):
 				echo '<div class="separator">';
-				get_template_php('includes/template','register');
+				get_template_php('inc/template','register');
 				echo '</div>';
 			else:
 				echo '<div class="form_access">';
-				get_template_php('includes/template','form-login');
+				get_template_php('inc/template','form-login');
 				echo '</div>';
 			endif;
 			?>
@@ -47,10 +47,10 @@ else:
 	<?php else: ?>
 
 		<div class="col-lg-pull-2 col-lg-8 col-lg-push-2">
-			<?php if(isset($_GET['change'])): ?>
-				<?php get_template_php('includes/template','change-user'); ?>
+			<?php if(isset($_GET['data']) AND $_GET['data']=='change'): ?>
+				<?php get_template_php('inc/template','change-user'); ?>
 			<?php else: ?>
-				<?php get_template_php('includes/template','dashboard'); ?>
+				<?php get_template_php('inc/template','dashboard'); ?>
 			<?php endif; ?>
 		</div>
 

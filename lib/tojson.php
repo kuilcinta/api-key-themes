@@ -617,8 +617,6 @@ function get_status_enum()
  */
 function formatting_json_request($args=0)
 {
-	//false();
-
 	if($args['id']==0)
 	{
 		/* Response code 304 jika $data kosong */

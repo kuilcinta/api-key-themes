@@ -8,12 +8,12 @@ if(isset($_POST['push']) AND $_POST['push'] == 1)
 {
 	$pass = empty($_POST['log_pass']) ? $user_data['user_pass'] : md5($_POST['log_pass']);
 	$Users->edit_user_data(
-			array('id'=>$userid_session,
-	  			  'pass'=>$pass,
-	  			  'mail'=>$_POST['log_mail'],
-	  			  'fname'=>$_POST['log_fname'],
-	  			  'lname'=>$_POST['log_lname']
-				 )
+					array('id'=>$userid_session,
+			  			  'pass'=>$pass,
+			  			  'mail'=>$_POST['log_mail'],
+			  			  'fname'=>$_POST['log_fname'],
+			  			  'lname'=>$_POST['log_lname']
+						 )
 	);
 }
 
@@ -29,7 +29,7 @@ if(isset($_POST['push']) AND $_POST['push'] == 1)
 	</div>
 </div>
 
-<form action="<?= $_SERVER['REQUEST_URI'] ?>" method="post" id="form-login" class="margin-bottom">
+<form action="<?= site_url('users/change') ?>" method="post" id="form-login" class="margin-bottom">
 	<div class="form-group">
 	    <div class="input-group w-100cent">
 	    	<label for="log_usn">Username:</label>

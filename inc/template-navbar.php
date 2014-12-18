@@ -2,7 +2,7 @@
 
 global $Users, $apiuserlog_session, $ofan_session;
 
-$position = BASENAME;
+//$position = BASENAME;
 
 ?>
 <div class="navbar navbar-default bg-primary z-index-999">
@@ -48,7 +48,7 @@ $position = BASENAME;
 		    				<i class="fa fa-angle-left v-align-middle"></i>
 		    				Back to Login</a>
 		    		<?php else: ?>
-		    			<a href="<?= site_url('users?register') ?>" class="navbar-btn btn btn-danger">
+		    			<a href="<?= site_url('users/register') ?>" class="navbar-btn btn btn-danger">
 		    				Register New API
 		    			</a>
 		    			<a href="<?= site_url('users') ?>" class="navbar-btn btn btn-primary">

@@ -11,7 +11,7 @@ global $Users;
 
 if(isset($_GET['edit']) AND $_GET['edit'] == 'user' AND isset($_GET['id'])):
 
-get_template_php('includes/template','edit-user');
+get_template_php('inc/template','edit-user');
 
 else:
 
@@ -34,7 +34,7 @@ $user_db = Access_CRUD($Users->access_user_db(),'read');
 	<div class="row">
 
 		<div class="col-lg-3">
-			<?php get_template_php('includes/template','menu') ?>
+			<?php get_template_php('inc/template','menu') ?>
 		</div>
 		<div class="col-lg-9">
 			<div class="panel panel-default">
@@ -70,7 +70,7 @@ $user_db = Access_CRUD($Users->access_user_db(),'read');
 							<td><?= $user['user_email'] ?></td>
 							<td><?= get_api_status($user['user_status'],true,true) ?></td>
 							<td>
-								<a href="<?= site_url('ebob/edit/user/id/'.$user['user_id']).'/drop/0' ?>" class="text-danger">
+								<a href="<?= site_url('ebob/edit/user/'.$user['user_id']).'/drop' ?>" class="text-danger">
 									<i class="glyphicon glyphicon-trash"></i>
 								</a>
 								&nbsp;

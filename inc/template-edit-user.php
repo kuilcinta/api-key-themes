@@ -40,24 +40,23 @@ if(isset($_POST['push']) AND $_POST['push'] == '1'){
 }
 elseif(isset($_GET['drop']))
 {
-	if($_GET['drop'] != '0')
-	{
-		get_form_drop(
-						array('input_hidden'=>array('id'=>$user['user_id'],
-													'name'=>$user['user_name'],
-													'pass'=>$user['user_pass']
-											),
-							  'submit'=>array('value'=>'Yes delete it!','class'=>'btn btn-danger'),
-							  'title'=>'Are you sure to delete?',
-							  'suffix'=>'user_',
-							  'form'=>array('action'=>$_SERVER['PHP_SELF'].'?edit=user&drop=1&id='.$user['user_id'],
-							  				'method'=>'post'
-							  				),
-							  'print'=>true
-							 )
-					);
-	}
-	else
+	get_form_drop(
+				array('input_hidden'=>array('id'=>$user['user_id'],
+											'name'=>$user['user_name'],
+											'pass'=>$user['user_pass'],
+											'push'=>1
+									),
+					  'submit'=>array('value'=>'Yes delete it!','class'=>'btn btn-danger'),
+					  'title'=>'Are you sure to delete?',
+					  'suffix'=>'user_',
+					  'form'=>array('action'=>$_SERVER['REQUEST_URI'],
+					  				'method'=>'post'
+					  				),
+					  'print'=>true
+					 )
+				);
+
+	if(isset($_POST['user_push']) AND $_POST['user_push']==1)
 	{
 		$data = array('user_id'=>$_POST['user_id'],
 					  'user_name'=>$_POST['user_name'],
@@ -71,10 +70,10 @@ elseif(isset($_GET['drop']))
 		$delete_user = $UserService->delete_user();
 
 		if($delete_user == true){
-			redir(site_url('ebob?data=user&msg=Success Deleting User'));
+			redir(site_url('ebob/user'));
 		}
 		else{
-			redir(site_url('ebob?edit=user&id='.$user['api_index'].'&msg=422'));
+			get_global_alert(422);
 		}
 	}
 }
@@ -148,7 +147,7 @@ elseif(isset($_GET['drop']))
 			    </div>
 				<div class="form-group">
 					<input type="hidden" name="push" value="1" />
-					<a href="<?= site_url('ebob/drop/0') ?>" class="btn btn-danger">Delete User</a>
+					<a href="<?= site_url('ebob/edit/user/'.$user['user_id'].'/drop') ?>" class="btn btn-danger">Delete User</a>
 			    	<input value="Update Account" type="submit" class="btn btn-primary">
 			    </div>
 			</div>

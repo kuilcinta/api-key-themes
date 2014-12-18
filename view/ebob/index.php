@@ -21,7 +21,7 @@ get_header(true,true);
 				</div>
 			<?php endif; ?>
 
-			<?php get_template_php('includes/template','ofan-access') ?>
+			<?php get_template_php('inc/template','ofan-access') ?>
 
 		</div>
 
@@ -32,13 +32,13 @@ get_header(true,true);
 			<?php
 
 			if( isset($_GET['data']) ):
-				get_template_php('includes/template','data-'.$_GET['data']);
+				get_template_php('inc/template','data-'.$_GET['data']);
 			elseif( isset($_GET['edit']) ):
-				get_template_php('includes/template','edit-'.$_GET['edit']);
+				get_template_php('inc/template','edit-'.$_GET['edit']);
 			elseif( isset($_GET['add']) ):
-				get_template_php('includes/template','add-'.$_GET['add']);
+				get_template_php('inc/template','add-'.$_GET['add']);
 			else:
-				get_template_php('includes/template','data-api');
+				get_template_php('inc/template','data-api');
 			endif;
 
 			?>

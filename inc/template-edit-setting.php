@@ -14,7 +14,7 @@ $data_setting = array('prm'=>"WHERE opt_id=$setting_id");
 $Setting = new Setting($data_setting);
 $setting_db = $Setting->read_site_opt()->fetch_array();
 
-if(isset($_POST['push']) AND $_POST['push'] == '1')
+if(isset($_POST['push']) AND $_POST['push'] == 1)
 {
 	$setting_name = $setting_db['opt_name'];
 
@@ -38,21 +38,19 @@ if(isset($_POST['push']) AND $_POST['push'] == '1')
 }
 elseif(isset($_GET['drop']))
 {
-	if($_GET['drop'] == '0')
-	{
-		get_form_drop(
-						array('input_hidden'=>array('id'=>$setting_db['opt_id']),
-							  'submit'=>array('value'=>'Yes delete it!','class'=>'btn btn-danger'),
-							  'title'=>'Are you sure to delete?',
-							  'suffix'=>'setting_',
-							  'form'=>array('action'=>$_SERVER['PHP_SELF'].'?edit=setting&drop=1&id='.$setting_db['opt_id'],
-							  				'method'=>'post'
-							  				),
-							  'print'=>true
-							 )
-					);
-	}
-	elseif($_GET['drop'] == '1')
+	get_form_drop(
+			array('input_hidden'=>array('id'=>$setting_db['opt_id'],'push'=>1),
+				  'submit'=>array('value'=>'Yes delete it!','class'=>'btn btn-danger'),
+				  'title'=>'Are you sure to delete?',
+				  'suffix'=>'setting_',
+				  'form'=>array('action'=>$_SERVER['PHP_SELF'].'?edit=setting&drop=1&id='.$setting_db['opt_id'],
+				  				'method'=>'post'
+				  				),
+				  'print'=>true
+				 )
+	);
+
+	if(isset($_POST['setting_push']) AND $_POST['setting_push']==1)
 	{
 		$data = array('id'=>$_POST['opt_id']);
 
@@ -64,10 +62,10 @@ elseif(isset($_GET['drop']))
 
 		if($delete_setting == true)
 		{
-			redir(site_url('ebob/data/setting/alert-Success+Deleting+setting'));
+			redir(site_url('ebob/setting'));
 		}
 		else{
-			redir(site_url('ebob/edit/setting/'.$setting['setting_index'].'/alert-422'));
+			get_global_alert(422);
 		}
 	}
 }
@@ -80,14 +78,14 @@ $full_name = ucwords(preg_replace('/\_/',' ',$setting_db['opt_name']));
 	<i class="glyphicon glyphicon-list-alt v-align-top"></i>
 	Edit <?= $full_name ?></h1>
 <div class="col-lg-4 text-right">
-	<a href="<?= site_url('ebob/data/setting') ?>" class="btn btn-primary">
+	<a href="<?= site_url('ebob/setting') ?>" class="btn btn-primary">
 		<i class="fa fa-angle-left"></i>
 		Back to Front</a>
 </div>
 </div>
 
 <div class="spearator">
-<form action="<?= $_SERVER['PHP_SELF'] ?>?edit=setting&id=<?= $setting_db['opt_id'] ?>&push=1" method="post" class="marginspace-bottom">
+<form action="<?= $_SERVER['REQUEST_URI'] ?>" method="post" class="marginspace-bottom">
 
 		<div class="form-group">
 	    	<div class="input-group w-100cent">

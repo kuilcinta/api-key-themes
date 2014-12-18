@@ -42,4 +42,12 @@ function email_author(){
 function get_masterdata_format(){
     return author_name().'|'.url_author().'|'.email_author();
 }
+
+function site_compressing(){
+    return get_site_options('html_compress');
+}
+
+function developing_mode(){
+    return get_site_options('dev_mode');
+}
 ?>

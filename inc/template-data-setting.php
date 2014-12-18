@@ -20,7 +20,7 @@ $setting_db = $Setting->read_site_opt();
 	<div class="row">
 
 		<div class="col-lg-3">
-		<?php get_template_php('includes/template','menu') ?>
+		<?php get_template_php('inc/template','menu') ?>
 		</div>
 		<div class="col-lg-9">
 			<div class="panel panel-default">
@@ -50,14 +50,14 @@ $setting_db = $Setting->read_site_opt();
 							<td><?= truncate($opt['opt_value'],100,50) ?></td>
 							<td>
 
-								<?php if($opt['opt_permanent'] != 1): ?>
+								<?php if($opt['opt_permanent'] == 0): ?>
 								<a href="<?= site_url('ebob?edit=setting&drop=0&id='.$opt['opt_id']) ?>" class="text-danger">
 									<i class="glyphicon glyphicon-trash"></i>
 								</a>
 								<?php endif; ?>
 
 								&nbsp;
-								<a href="<?= site_url('ebob?edit=setting&id='.$opt['opt_id']) ?>">
+								<a href="<?= site_url('ebob/edit/setting/'.$opt['opt_id']) ?>">
 									<i class="glyphicon glyphicon-pencil"></i>
 								</a>
 							</td>

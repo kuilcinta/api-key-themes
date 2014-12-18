@@ -10,11 +10,11 @@ global $Users;
 
 if(isset($_GET['edit']) AND $_GET['edit'] == 'api' AND isset($_GET['id'])):
 
-	get_template_php('includes/template','edit-api');
+	get_template_php('inc/template','edit-api');
 
 elseif(isset($_GET['add']) AND $_GET['add'] == 'api'):
 
-	get_template_php('includes/template','add-api');
+	get_template_php('inc/template','add-api');
 
 else:
 
@@ -40,7 +40,7 @@ $api_data = Access_CRUD(get_api_user_merge_db($data),'read');
 
 	<div class="row">
 		<div class="col-lg-3">
-			<?php get_template_php('includes/template','menu') ?>
+			<?php get_template_php('inc/template','menu') ?>
 		</div>
 		<div class="col-lg-9">
 			<div class="panel panel-default">
@@ -80,7 +80,7 @@ $api_data = Access_CRUD(get_api_user_merge_db($data),'read');
 							<td><?= convert_date($api['api_valid']) ?></td>
 							<td><?= get_api_status($api['api_status'],true,true) ?></td>
 							<td>
-								<a href="<?= site_url('ebob/edit/api/drop/0/id/'.$api['api_index']) ?>" class="text-danger">
+								<a href="<?= site_url('ebob/edit/api/'.$api['api_index'].'/drop') ?>" class="text-danger">
 									<i class="glyphicon glyphicon-trash"></i>
 								</a>
 								&nbsp;

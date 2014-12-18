@@ -30,7 +30,7 @@ else{
 	/* Start define header() type for JSON files return */
 	if($json_code_respon==200){
 		header("HTTP/1.0 200 Successfully");
-		header("Content-Type: application/json");
+		header("Content-Type: application/json; charset=UTF-8");
 
 		/* Additional header type content "Download" if parameter URL have download value */
 		if(isset($_GET['download'])){

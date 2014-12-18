@@ -9,6 +9,7 @@
  */
 
 $libs = array(	'error',
+				'compressing',
 				'db',
 				'crud',
 				'status',

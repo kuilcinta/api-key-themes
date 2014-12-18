@@ -18,34 +18,37 @@ RewriteRule /?\.htaccess$ - [F,L]
 
 RewriteRule ^v1$ v1.php
 
+# API hot link URL part 1
 RewriteRule ^v1\/([0-9]+)\.json$ v1.php?ids=$1
 RewriteRule ^v1\/([0-9]+)$ v1.php?ids=$1
 RewriteRule ^v1\/([0-9]+)\/$ v1.php?ids=$1
 
+# API hot link URL part 2
 RewriteRule ^v1\/([0-9]+)-([a-zA-Z0-9_-]+)\.json$ v1.php?ids=$1&lang=$2
 RewriteRule ^v1\/([a-zA-Z0-9_-]+)\/([0-9]+)$ v1.php?lang=$1&ids=$2
 RewriteRule ^v1\/([a-zA-Z0-9_-]+)\/([0-9]+)\/$ v1.php?lang=$1&ids=$2
 RewriteRule ^v1\/([a-zA-Z0-9_-]+)\/([0-9]+)\.json$ v1.php?lang=$1&ids=$2
 
+# API Download access pretty URL part 1
 RewriteRule ^v1\/download\/([0-9]+)\.json$ v1.php?download&ids=$1
 RewriteRule ^v1\/download\/([0-9]+)\/$ v1.php?download&ids=$1
 RewriteRule ^v1\/download\/([0-9]+)$ v1.php?download&ids=$1
 
+# API Download access pretty URL part 2
 RewriteRule ^v1\/download\/([a-zA-Z0-9_-]+)\/([0-9]+)\.json$ v1.php?download&lang=$1&ids=$2
 RewriteRule ^v1\/download\/([a-zA-Z0-9_-]+)\/([0-9]+)\/$ v1.php?download&lang=$1&ids=$2
 RewriteRule ^v1\/download\/([a-zA-Z0-9_-]+)\/([0-9]+)$ v1.php?download&lang=$1&ids=$2
 RewriteRule ^v1\/download\/([a-zA-Z0-9_-]+)\/([0-9]+).json$ v1.php?download&lang=$1&ids=$2
 
+# Verify account pretty URL
 RewriteRule ^verify\/([a-zA-Z0-9\=_-]+)$ index.php?page=verify&c=$1
 
-#Change url dynamic to access view directory
+# Change url dynamic to access view directory
 RewriteRule ^([a-zA-Z0-9\_-]+)$ index.php?view=$1
 RewriteRule ^([a-zA-Z0-9\_-]+)\/$ index.php?view=$1
 RewriteRule ^([a-zA-Z0-9\_-]+)\/([a-zA-Z0-9\_-]+)$ index.php?view=$1&data=$2
 RewriteRule ^([a-zA-Z0-9\_-]+)\/add\/([a-zA-Z0-9\_-]+)$ index.php?view=$1&add=$2
 RewriteRule ^([a-zA-Z0-9\_-]+)\/edit\/([a-zA-Z0-9\_-]+)\/([0-9]+)$ index.php?view=$1&edit=$2&id=$3
-RewriteRule ^([a-zA-Z0-9\_-]+)\/drop\/([0-9]+)$ index.php?view=$1&drop=$2
-RewriteRule ^([a-zA-Z0-9\_-]+)\/change$ index.php?view=$1&change
-RewriteRule ^([a-zA-Z0-9\_-]+)\/change/push$ index.php?view=$1&change=push
+RewriteRule ^([a-zA-Z0-9\_-]+)\/edit\/([a-zA-Z0-9\_-]+)\/([0-9]+)\/drop$ index.php?view=$1&edit=$2&id=$3&drop
 
 </IfModule>

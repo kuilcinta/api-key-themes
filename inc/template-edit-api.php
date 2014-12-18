@@ -14,7 +14,7 @@ $data_user_api = array('order'=>'api_data.api_valid','where'=>"api_data.api_inde
 
 $api = array_fetch_db(get_api_user_merge_db($data_user_api),'read');
 
-if(isset($_POST['push']) AND $_POST['push'] == '1')
+if(isset($_POST['push']) AND $_POST['push'] == 1)
 {
 	$ToJson = new ToJson(
 					array('index'=>$api_index,
@@ -39,24 +39,23 @@ if(isset($_POST['push']) AND $_POST['push'] == '1')
 }
 elseif(isset($_GET['drop']))
 {
-	if($_GET['drop'] == '0')
-	{
-		get_form_drop(
-						array('input_hidden'=>array('id'=>$api['api_id'],
-													'index'=>$api['api_index'],
-													'user'=>$api['api_user']
-											),
-							  'submit'=>array('value'=>'Yes delete it!','class'=>'btn btn-danger'),
-							  'title'=>'Are you sure to delete?',
-							  'suffix'=>'api_',
-							  'form'=>array('action'=>$_SERVER['PHP_SELF'].'?edit=api&drop=1&id='.$api['api_index'],
-							  				'method'=>'post'
-							  				),
-							  'print'=>true
-							 )
-					);
-	}
-	elseif($_GET['drop'] == '1')
+	get_form_drop(
+		array('input_hidden'=>array('id'=>$api['api_id'],
+									'index'=>$api['api_index'],
+									'user'=>$api['api_user'],
+									'push'=>1
+							),
+			  'submit'=>array('value'=>'Yes delete it!','class'=>'btn btn-danger'),
+			  'title'=>'Are you sure to delete?',
+			  'suffix'=>'api_',
+			  'form'=>array('action'=>$_SERVER['REQUEST_URI'],
+			  				'method'=>'post'
+			  				),
+			  'print'=>true
+			 )
+	);
+
+	if(isset($_POST['api_push']) AND $_POST['api_push'] == 1)
 	{
 		$data = array('id'=>$_POST['api_id'],
 					  'index'=>$_POST['api_index'],
@@ -71,10 +70,10 @@ elseif(isset($_GET['drop']))
 
 		if($delete_api == true)
 		{
-			redir(site_url('ebob/api/msg=Success Deleting API'));
+			redir(site_url('ebob/api'));
 		}
 		else{
-			redir(site_url('ebob/api='.$api['api_index'].'/msg=422'));
+			get_global_alert(422);
 		}
 	}
 }
@@ -96,7 +95,7 @@ $api_value_status = ($api['api_value'] == '' OR $api['api_value'] == 'none') ? f
 </div>
 
 <div class="spearator">
-<form action="<?= site_url('ebob/api') ?>" method="post" class="marginspace-bottom">
+<form action="<?= $_SERVER['REQUEST_URI'] ?>" method="post" class="marginspace-bottom">
 	<div class="row">
 		<div class="col-lg-6">
 			<div class="form-group">
@@ -175,7 +174,7 @@ $api_value_status = ($api['api_value'] == '' OR $api['api_value'] == 'none') ? f
 		    </div>
 			<div class="form-group text-right">
 				<input type="hidden" name="push" value="1" />
-				<a href="<?= site_url('ebob?edit=api&drop=0&id='.$api['api_index']) ?>" class="btn btn-danger">Delete API</a>
+				<a href="<?= site_url('ebob/edit/api/'.$api['api_index'].'/drop') ?>" class="btn btn-danger">Delete API</a>
 		    	<input value="Update API <?= $full_name ?>" type="submit" class="btn btn-primary">
 		    </div>
 		</div>

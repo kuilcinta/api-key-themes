@@ -363,7 +363,7 @@ function get_header($script=false,$style=false,$args=array()){
 <body <?= isset($args['body_class']) ? 'class="'.$args['body_class'].'"' : '' ?>>
 <div class="wrapper clearfix">
 <header>
-<?php get_template_php('includes/template','navbar') ?>
+<?php get_template_php('inc/template','navbar') ?>
 </header>
 <section class="clearfix">
 <?php
@@ -373,7 +373,7 @@ function get_footer($footertag=true){ ?>
 </section>
 <?php
 if($footertag==true)
- get_template_php('includes/template','footer') ?>
+ get_template_php('inc/template','footer') ?>
 </div>
 </body>
 </html>
@@ -431,12 +431,16 @@ function slide_home_css(){
 	}
 }
 
-function get_template_php($file='',$name=''){
+function get_template_php($file='',$name='',$delimiter='-',$redir=false,$ext='.php'){
 	if($file!='' && $name!=''){
-		$ext = '.php';
-		$full_file_name = BASEDIR.'/'.$file.'-'.$name.$ext;
+		$full_file_name = BASEDIR.'/'.$file.$delimiter.$name.$ext;
 		if(file_exists($full_file_name))
+		{
 			include($full_file_name);
+		}
+		else{
+			return $redir == false ? null : redir(site_url('page=error&msg=404'));
+		}
 	}
 }
 
@@ -449,7 +453,7 @@ function load_error_template($headinfo=true,$header=true,$footer=false){
 		get_header(false,true);
 	}
 
-	get_template_php('includes/template','error');
+	get_template_php('inc/template','error');
 
 	if($footer==true){
 		get_footer();
